@@ -20,11 +20,11 @@ export function Navbar() {
             </Link>
           </Button>
 
-          <div className="hidden md:flex flex-row space-x-8 text-[18px] font-normal">
-            <Link href="/">Getting</Link>
-            <Link href="/">Course</Link>
-            <Link href="/">Batch</Link>
-            <Link href="/">Dashboard</Link>
+          <div className="hidden md:flex flex-row space-x-8 text-[16px] font-normal">
+            <Link href="/getting" className="hover:text-amber-500">Getting</Link>
+            <Link href="/course" className="hover:text-amber-500">Course</Link>
+            <Link href="/batch" className="hover:text-amber-500">Batch</Link>
+            <Link href="/dashboard" className="hover:text-amber-500">Dashboard</Link>
           </div>
         </div>
         <div className="flex flex-row items-center gap-2 justify-center">
