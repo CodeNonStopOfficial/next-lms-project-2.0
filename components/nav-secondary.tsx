@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
 import {
   SidebarGroup,
@@ -8,32 +8,29 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { ItemProps } from "@/lib/type";
+import Link from "next/link";
 
-export function NavSecondary({
-  items,
-  ...props
-}: {
-  items: {
-    title: string
-    url: string
-    icon: React.ReactNode
-  }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+export function NavSecondary({ items, ...props }: ItemProps & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton render={<a href={item.url} />}>
-                {item.icon}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
+              <SidebarMenuButton
+                render={
+                  <Link href={item?.url} className="flex flex-row gap-1 text-[16px] font-normal">
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
+                }
+              />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }

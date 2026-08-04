@@ -128,3 +128,16 @@
     @apply font-sans;
   }
 }
+
+::-webkit-scrollbar {
+   display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+/* Internet Explorer & old Edge */
+body {
+  -ms-overflow-style: none;
+}
