@@ -1,7 +1,366 @@
-export default function CourseCreatePage(){
-    return (
-         <div>
-             <h1>Course Create Page</h1>
-         </div>
-    )
+"use client";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  courseLevel,
+  courseSchema,
+  CourseSchemaType,
+  courseStatus,
+} from "@/lib/zodSchema";
+import { ArrowLeft, SparkleIcon } from "lucide-react";
+import Link from "next/link";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import slugify from "slugify";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { courseCategories } from "@/utils/course-category";
+
+export default function CourseCreatePage() {
+  const form = useForm<CourseSchemaType>({
+    resolver: zodResolver(courseSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      fileKey: "",
+      price: 0,
+      duration: 0,
+      level: "Beginner",
+      category: "Web Development",
+      status: "Draft",
+      slug: "",
+      smallDescription: "",
+    },
+  });
+  function onSubmit(value: CourseSchemaType) {
+    console.log(value);
+  }
+  return (
+    <>
+      <section className="w-full px-4 md:px-4 py-4 space-y-2">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin/course"
+            className={buttonVariants({
+              variant: "outline",
+              size: "icon",
+            })}
+          >
+            <ArrowLeft className="size-4" />
+          </Link>
+          <h1 className="text-sm md:text-2xl font-bold">
+            Welcome to Create Course Dashboard Page
+          </h1>
+        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Basic Information About Course Creation</CardTitle>
+            <CardDescription>
+              Please Provide Basic to Information For Creation Course
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+              <FieldGroup>
+                <Controller
+                  name="title"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="title">Title</FieldLabel>
+                      <Input
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Web Development Avater Batch 2.0  || Web Development Prime"
+                        autoComplete="off"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+                <div className="flex items-end gap-4">
+                  <Controller
+                    name="slug"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field
+                        data-invalid={fieldState.invalid}
+                        className="w-full"
+                      >
+                        <FieldLabel htmlFor="slug">Course Slug</FieldLabel>
+                        <Input
+                          {...field}
+                          aria-invalid={fieldState.invalid}
+                          placeholder="Course Slug...."
+                          autoComplete="off"
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    className="w-fit"
+                    onClick={() => {
+                      const titleValue = form.getValues("title");
+                      const slug = slugify(titleValue);
+                      form.setValue("slug", slug, { shouldValidate: true });
+                    }}
+                  >
+                    Generate Slug <SparkleIcon className="ml-1" size={16} />
+                  </Button>
+                </div>
+                <Controller
+                  name="smallDescription"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="small-description">
+                        Small Description
+                      </FieldLabel>
+                      <Textarea
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Small Description..."
+                        autoComplete="off"
+                        className="min-h-30"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="description"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="description">Description</FieldLabel>
+                      <Textarea
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        placeholder="Big Notes Description..."
+                        autoComplete="off"
+                        className="min-h-30"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="fileKey"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="course-thumbnail">
+                        Course Thumbnail
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        type="file"
+                        autoComplete="off"
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Controller
+                    name="category"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="category">
+                          Course Category
+                        </FieldLabel>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger
+                            id="category"
+                            aria-invalid={fieldState.invalid}
+                            className="min-w-30"
+                          >
+                            <SelectValue placeholder="Select Category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectSeparator />
+                            {courseCategories?.map((category) => (
+                              <SelectItem key={category} value={category}>
+                                {category}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="level"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="level">Course Level</FieldLabel>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger
+                            id="level"
+                            aria-invalid={fieldState.invalid}
+                            className="min-w-30"
+                          >
+                            <SelectValue placeholder="Select Level" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectSeparator />
+                            {courseLevel?.map((level) => (
+                              <SelectItem key={level} value={level}>
+                                {level}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="duration"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="course-duration">
+                          Duration
+                        </FieldLabel>
+                        <Input
+                          {...field}
+                          aria-invalid={fieldState.invalid}
+                          type="number"
+                          autoComplete="off"
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                  <Controller
+                    name="price"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="course-price">
+                          Price-Indian Rupee (INR)
+                        </FieldLabel>
+                        <Input
+                          {...field}
+                          aria-invalid={fieldState.invalid}
+                          type="number"
+                          autoComplete="off"
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                </div>
+                <Controller
+                  name="status"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="level">Course Level</FieldLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger
+                          id="status"
+                          aria-invalid={fieldState.invalid}
+                          className="min-w-30"
+                        >
+                          <SelectValue placeholder="Select Level" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectSeparator />
+                          {courseStatus?.map((status) => (
+                            <SelectItem key={status} value={status}>
+                              {status}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+
+                <Button type="submit" form="form-rhf-demo">
+                  Submit
+                </Button>
+              </FieldGroup>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <Field orientation="horizontal">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                Reset
+              </Button>
+              <Button type="submit" form="form-rhf-demo">
+                Submit
+              </Button>
+            </Field>
+          </CardFooter>
+        </Card>
+      </section>
+    </>
+  );
 }
