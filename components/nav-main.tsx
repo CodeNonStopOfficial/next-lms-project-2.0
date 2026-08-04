@@ -1,6 +1,4 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -9,7 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ItemProps } from "@/lib/type";
-import { CirclePlusIcon, MailIcon } from "lucide-react";
+import { CirclePlusIcon} from "lucide-react";
 import Link from "next/link";
 
 export function NavMain({ items }: ItemProps) {

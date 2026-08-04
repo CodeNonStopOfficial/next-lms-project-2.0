@@ -23,6 +23,7 @@ import {
   CreditCardIcon,
   BellIcon,
   LogOutIcon,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -38,17 +39,17 @@ export function NavUser() {
     return null;
   }
 
-  function handleLogOut(){
-    startTransition(async()=>{
-       await authClient.signOut({
-         fetchOptions : {
-           onSuccess : ()=>{
+  function handleLogOut() {
+    startTransition(async () => {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
             router.push("/");
             toast.success("LogOut Successfully");
-           }
-         }
-       })
-    })
+          },
+        },
+      });
+    });
   }
   return (
     <SidebarMenu>
@@ -128,8 +129,17 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogOut}>
-              <LogOutIcon />
-               Log out
+              {isPending ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <>
+                  <LogOutIcon />
+                  Log out
+                </>
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
