@@ -5,9 +5,9 @@ import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
-import data from "./data.json"
+import data from "../data.json"
 
-export default function Page() {
+export default function DashboardPage() {
   return (
     <SidebarProvider
       style={

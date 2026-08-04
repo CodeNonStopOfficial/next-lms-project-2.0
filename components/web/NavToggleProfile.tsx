@@ -101,7 +101,7 @@ export function NavToggleProfile({ user }: UserDataProps) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="/admin" className="flex gap-2">
+              <Link href="/admin/dashboard" className="flex gap-2">
                 <LayoutDashboard />
                  Dashboard
               </Link>

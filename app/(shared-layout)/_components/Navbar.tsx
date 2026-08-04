@@ -34,10 +34,10 @@ export function Navbar() {
           ) : (
             <div className="hidden md:flex gap-2">
               <Button className="px-6 py-4.5 text-[16px]" variant="secondary">
-                Login
+                <Link href="/login">Login</Link>
               </Button>
               <Button className="px-6 py-4.5 text-[16px]" variant="outline">
-                Get Started
+                <Link href="/get-started">Get-Started</Link>
               </Button>
             </div>
           )}
