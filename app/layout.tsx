@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-// @ts-expect-error - Next.js handles global CSS imports
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -43,7 +41,6 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -53,7 +50,6 @@ export default function RootLayout({
             {children}
             <Toaster />
           </ThemeProvider>
-        </TooltipProvider>
       </body>
     </html>
   );
