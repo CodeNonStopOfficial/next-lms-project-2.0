@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { courseCategories } from "@/utils/course-category";
+import { RiceTextEditor } from "@/components/rice-text-editor/Editor";
 
 export default function CourseCreatePage() {
   const form = useForm<CourseSchemaType>({
@@ -162,13 +163,7 @@ export default function CourseCreatePage() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor="description">Description</FieldLabel>
-                      <Textarea
-                        {...field}
-                        aria-invalid={fieldState.invalid}
-                        placeholder="Big Notes Description..."
-                        autoComplete="off"
-                        className="min-h-30"
-                      />
+                      <RiceTextEditor field={field}/>
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
