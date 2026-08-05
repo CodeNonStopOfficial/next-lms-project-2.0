@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -163,7 +163,7 @@ export default function CourseCreatePage() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor="description">Description</FieldLabel>
-                      <RiceTextEditor field={field}/>
+                      <RiceTextEditor field={field} />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -178,12 +178,21 @@ export default function CourseCreatePage() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
+
                       <Input
-                        {...field}
-                        aria-invalid={fieldState.invalid}
+                        id="course-thumbnail"
                         type="file"
-                        autoComplete="off"
+                        accept="image/*"
+                        aria-invalid={fieldState.invalid}
+                        name={field.name}
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          field.onChange(file);
+                        }}
                       />
+
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
