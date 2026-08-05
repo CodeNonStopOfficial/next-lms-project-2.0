@@ -14,7 +14,9 @@ import Twitch from "@tiptap/extension-twitch";
 import { Youtube } from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 
-export function RiceTextEditor({ field }: { field: any }) {
+
+
+export function RiceTextEditor({ field }: {field : any}) {
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [
@@ -64,7 +66,7 @@ export function RiceTextEditor({ field }: { field: any }) {
       field.onChange(JSON.stringify(editor.getJSON()));
     },
     content: field.value ? JSON.parse(field.value) : "<p>Hello World</p>",
-    immediatelyRender: false
+    immediatelyRender: false,
   });
 
   return (

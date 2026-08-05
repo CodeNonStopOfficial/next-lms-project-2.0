@@ -11,10 +11,8 @@ import { cn } from "@/lib/utils";
 import {
   ImageIcon,
   Underline,
-  Video,
   VideoIcon,
   Videotape,
-  VideotapeIcon,
 } from "lucide-react";
 
 interface iAppProps {
