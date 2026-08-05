@@ -5,7 +5,6 @@ import { ThemeToggle } from "@/components/web/Theme-Toggle";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 
-
 export function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   return (
@@ -21,22 +20,30 @@ export function Navbar() {
           </Button>
 
           <div className="hidden md:flex flex-row space-x-8 text-[16px] font-normal">
-            <Link href="/getting" className="hover:text-amber-500">Getting</Link>
-            <Link href="/course" className="hover:text-amber-500">Course</Link>
-            <Link href="/batch" className="hover:text-amber-500">Batch</Link>
-            <Link href="/dashboard" className="hover:text-amber-500">Dashboard</Link>
+            <Link href="/getting" className="hover:text-amber-500">
+              Getting
+            </Link>
+            <Link href="/course" className="hover:text-amber-500">
+              Course
+            </Link>
+            <Link href="/batch" className="hover:text-amber-500">
+              Batch
+            </Link>
+            <Link href="/dashboard" className="hover:text-amber-500">
+              Dashboard
+            </Link>
           </div>
         </div>
         <div className="flex flex-row items-center gap-2 justify-center">
           <ThemeToggle />
           {isPending ? null : session ? (
-            <NavToggleProfile user={session.user}/>
+            <NavToggleProfile user={session.user} />
           ) : (
-            <div className="hidden md:flex gap-2">
+            <div className="flex gap-2">
               <Button className="px-6 py-4.5 text-[16px]" variant="secondary">
                 <Link href="/login">Login</Link>
               </Button>
-              <Button className="px-6 py-4.5 text-[16px]" variant="outline">
+              <Button className="hidden md:block px-6 py-4.5 text-[16px]" variant="outline">
                 <Link href="/get-started">Get-Started</Link>
               </Button>
             </div>
