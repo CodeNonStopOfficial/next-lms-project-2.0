@@ -17,7 +17,9 @@ const eslintConfig = defineConfig([
     rules: {
       "react-hooks/set-state-in-effect": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "react-hooks/incompatible-library": "off",
+       "react-hooks/incompatible-library": "off",
+      //  'react/no-unescaped-entities': 'off',
+      // '@next/next/no-page-custom-font': 'off',
     },
   },
 ]);

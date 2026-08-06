@@ -4,10 +4,14 @@ import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { RenderEmptyState, RenderErrorState, RenderUploadedState, RenderUploadingState } from "./RenderState";
+import {
+  RenderEmptyState,
+  RenderErrorState,
+  RenderUploadedState,
+  RenderUploadingState,
+} from "./RenderState";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
-import { file } from "better-auth";
 
 interface UploaderState {
   id: string | null;
@@ -126,12 +130,12 @@ export function Uploader() {
 
   function rejectedFile(fileRejection: FileRejection[]) {
     if (fileRejection.length) {
-      const tooManyfiles = fileRejection.find((rejection) => {
-        rejection.errors[0].code === "too-many-files";
-      });
-      const fileSizeBig = fileRejection.find((rejection) => {
-        rejection.errors[0].code === "file-too-large";
-      });
+      const tooManyfiles = fileRejection.find(
+        (rejection) => rejection.errors[0].code === "too-many-files",
+      );
+      const fileSizeBig = fileRejection.find(
+        (rejection) => rejection.errors[0].code === "file-too-large",
+      );
       if (tooManyfiles) {
         toast.error("Too Many File, Please Select One File");
       }
@@ -144,16 +148,17 @@ export function Uploader() {
   function renderContent() {
     if (fileState.uploading) {
       return (
-        <RenderUploadingState progress={fileState.progress} file={fileState.file as File}/>
+        <RenderUploadingState
+          progress={fileState.progress}
+          file={fileState.file as File}
+        />
       );
     }
     if (fileState.error) {
       return <RenderErrorState />;
     }
     if (fileState.objectUrl) {
-      return (
-        <RenderUploadedState previewUrl={fileState.objectUrl}/>
-      );
+      return <RenderUploadedState previewUrl={fileState.objectUrl} />;
     }
     return <RenderEmptyState isDragActive={isDragActive} />;
   }
