@@ -43,7 +43,7 @@ export function Navbar() {
               <Button className="px-6 py-4.5 text-[16px]" variant="secondary">
                 <Link href="/login">Login</Link>
               </Button>
-              <Button className="hidden md:block px-6 py-4.5 text-[16px]" variant="outline">
+              <Button className="hidden md:flex px-6 py-4.5 text-[16px]" variant="outline">
                 <Link href="/get-started">Get-Started</Link>
               </Button>
             </div>
