@@ -4,28 +4,20 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { Menubar } from "./Menubar";
-import { CodeBlock } from "@tiptap/extension-code-block";
 import { all, createLowlight } from "lowlight";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
-import Document from "@tiptap/extension-document";
 import Image from "@tiptap/extension-image";
 import { MenubarTwo } from "./Menubartwo";
 import Twitch from "@tiptap/extension-twitch";
 import { Youtube } from "@tiptap/extension-youtube";
-import { Underline } from "@tiptap/extension-underline";
 
-
-
-export function RiceTextEditor({ field }: {field : any}) {
+export function RiceTextEditor({ field }: { field: any }) {
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      CodeBlock,
-      Document,
-      Image,
-      Twitch,
-      Underline,
+      StarterKit.configure({
+        codeBlock: false
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -34,13 +26,9 @@ export function RiceTextEditor({ field }: {field : any}) {
         languageClassPrefix: "language-",
         defaultLanguage: "plaintext",
         enableTabIndentation: true,
-        HTMLAttributes: {
-          class:
-            "rounded-xl bg-zinc-950 text-zinc-100 p-4 my-6 overflow-x-auto font-mono text-2xl",
-        },
       }),
       Youtube.configure({
-        controls: false,
+        controls: true,
         nocookie: true,
       }),
       Image.configure({
@@ -52,6 +40,7 @@ export function RiceTextEditor({ field }: {field : any}) {
           alwaysPreserveAspectRatio: true,
         },
       }),
+
       Twitch.configure({
         allowFullscreen: true,
       }),

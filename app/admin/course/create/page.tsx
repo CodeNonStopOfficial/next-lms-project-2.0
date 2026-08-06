@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select";
 import { courseCategories } from "@/utils/course-category";
 import { RiceTextEditor } from "@/components/rice-text-editor/Editor";
+import { Uploader } from "@/components/file-uploader/Uploader";
 
 export default function CourseCreatePage() {
   const form = useForm<CourseSchemaType>({
@@ -178,21 +179,7 @@ export default function CourseCreatePage() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-
-                      <Input
-                        id="course-thumbnail"
-                        type="file"
-                        accept="image/*"
-                        aria-invalid={fieldState.invalid}
-                        name={field.name}
-                        ref={field.ref}
-                        onBlur={field.onBlur}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          field.onChange(file);
-                        }}
-                      />
-
+                      <Uploader />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}

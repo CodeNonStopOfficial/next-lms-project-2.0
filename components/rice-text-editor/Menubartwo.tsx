@@ -67,8 +67,8 @@ export function MenubarTwo({ editor }: iAppProps) {
 
                     editor.commands.setYoutubeVideo({
                       src: url,
-                      width: Math.max(320),
-                      height: Math.max(180),
+                      width: Math.max(520),
+                      height: Math.max(280),
                     });
                   }}
                   className={cn(
