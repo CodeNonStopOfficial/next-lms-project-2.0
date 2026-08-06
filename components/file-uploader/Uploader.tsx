@@ -25,7 +25,13 @@ interface UploaderState {
   fileType: "image" | "video";
 }
 
-export function Uploader() {
+interface iAppProps{
+   value ?: string;
+   onChange?:(value:string)=>void
+}
+
+export function Uploader({onChange,value}:iAppProps) {
+  //file state
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -34,7 +40,9 @@ export function Uploader() {
     progress: 0,
     isDeleting: false,
     fileType: "image",
+    key : value
   });
+  // file uplaod funcation 
   async function uploadFile(file: File) {
     setFileState((prev) => ({
       ...prev,
@@ -91,6 +99,7 @@ export function Uploader() {
               uploading: false,
               key: key,
             }));
+            onChange?.(key);
             toast.add({
                type :"success",
                title:"File Uploaded Successfully"
@@ -120,6 +129,7 @@ export function Uploader() {
       }));
     }
   }
+  //file dropdown funcation 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
@@ -142,7 +152,7 @@ export function Uploader() {
     },
     [fileState.objectUrl],
   );
-
+  //file remove function
   async function handleRemoveFile() {
     if (fileState.isDeleting || !fileState.objectUrl) return;
     try {
@@ -172,6 +182,7 @@ export function Uploader() {
       if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
         URL.revokeObjectURL(fileState.objectUrl);
       }
+      onChange?.("");
       setFileState(() => ({
         file: null,
         uploading: false,
@@ -184,7 +195,7 @@ export function Uploader() {
       }));
       toast.add({
         type: "success",
-        title: "File Upload Successfully",
+        title: "File Deleted,Please try agine",
       });
     } catch {
       toast.add({

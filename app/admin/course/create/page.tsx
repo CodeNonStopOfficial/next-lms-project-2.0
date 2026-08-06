@@ -179,7 +179,7 @@ export default function CourseCreatePage() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-                      <Uploader />
+                      <Uploader onChange={field.onChange} value={field.value} />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
