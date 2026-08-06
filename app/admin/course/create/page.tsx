@@ -266,7 +266,10 @@ export default function CourseCreatePage() {
                         <Input
                           {...field}
                           aria-invalid={fieldState.invalid}
-                          type="number"
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                           autoComplete="off"
                         />
                         {fieldState.invalid && (
@@ -285,8 +288,12 @@ export default function CourseCreatePage() {
                         </FieldLabel>
                         <Input
                           {...field}
+                          id="price"
+                          value={field.value ?? ""}
                           aria-invalid={fieldState.invalid}
-                          type="number"
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                           autoComplete="off"
                         />
                         {fieldState.invalid && (
@@ -329,11 +336,10 @@ export default function CourseCreatePage() {
                     </Field>
                   )}
                 />
-
-                <Button type="submit" form="form-rhf-demo">
-                  Submit
-                </Button>
               </FieldGroup>
+              <Button type="submit" className="px-4 md:px-8 py-4.5">
+                Submit
+              </Button>
             </form>
           </CardContent>
           <CardFooter>
@@ -345,8 +351,12 @@ export default function CourseCreatePage() {
               >
                 Reset
               </Button>
-              <Button type="submit" form="form-rhf-demo">
-                Submit
+               <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+               >
+                Back
               </Button>
             </Field>
           </CardFooter>

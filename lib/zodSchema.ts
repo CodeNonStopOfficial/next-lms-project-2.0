@@ -3,6 +3,7 @@ import z from "zod";
 
 export const courseLevel = ["Beginner", "Intermidiate", "Advanced"] as const;
 export const courseStatus = ["Draft", "Published", "Archived"];
+
 export const courseSchema = z.object({
   title: z
     .string()
@@ -16,8 +17,7 @@ export const courseSchema = z.object({
   fileKey: z.string().min(1, { message: "File is required" }),
 
   price: z.number().min(1, { message: "Price must be positive number." }),
-  duration: z
-    .number()
+  duration: z.number() 
     .min(1, { message: "Duration Must be at least 1 hours" })
     .max(500, { message: "Duration must be at most 100 hours" }),
 
