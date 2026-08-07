@@ -5,3 +5,8 @@ export interface ItemProps {
     icon?: React.ReactNode;
   }[];
 }
+
+export type ApiResponse = {
+   status : "success" | "error";
+   message : string
+}
