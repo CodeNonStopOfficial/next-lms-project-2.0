@@ -6,8 +6,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3 } from "@/lib/S3Client";
 import { fileUploadeSchema } from "./schema";
 import arject, { detectBot, fixedWindow } from "@/lib/arject";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { requiredAdmin } from "@/app/data/admin/require-admin";
 
 const aj = arject.withRule(
    detectBot({
@@ -23,9 +22,7 @@ const aj = arject.withRule(
 )
 
 export async function POST(request : Request){
-   const session = await auth.api.getSession({
-       headers : await headers()
-   })
+   const session = await requiredAdmin();
    try{
       const decision = await aj.protect(request,{fingerprint:session?.user.id as string});
       if(decision.isDenied()){
@@ -56,7 +53,7 @@ export async function POST(request : Request){
       return NextResponse.json(response)
    }catch{
        return NextResponse.json({
-          error : "Failed To Generate presignedUrl"
+          error : `Failed To Generate presignedUrl`
        },{
          status : 500
        })

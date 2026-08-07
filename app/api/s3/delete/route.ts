@@ -3,8 +3,7 @@ import { S3 } from "@/lib/S3Client";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 import arject, { detectBot, fixedWindow } from "@/lib/arject";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { requiredAdmin } from "@/app/data/admin/require-admin";
 
 
 const aj = arject.withRule(
@@ -21,9 +20,7 @@ const aj = arject.withRule(
 )
 
 export async function DELETE(request:Request){
-   const session = await auth.api.getSession({
-       headers : await headers()
-   })
+   const session = await requiredAdmin();
    try {
       const desision = await aj.protect(request,{
          fingerprint : session?.user.id as string

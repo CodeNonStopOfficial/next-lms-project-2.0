@@ -67,7 +67,7 @@ export default function Uploader({onChange,value}:iAppProps) {
       if (!presignedResponse.ok) {
         toast.add({
           type: "error",
-          title: "Failed to Get PresignedUrl",
+          title: "Failed to Get- PresingedUrl",
         });
         setFileState((prev) => ({
           ...prev,

@@ -1,20 +1,49 @@
 "use server";
-import { auth } from "@/lib/auth";
+import { requiredAdmin } from "@/app/data/admin/require-admin";
+import arject, { detectBot, fixedWindow } from "@/lib/arject";
 import prisma from "@/lib/db";
 import { CourseStatus } from "@/lib/generated/prisma/client";
 import { ApiResponse } from "@/lib/type";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
-import { headers } from "next/headers";
+import { request } from "@arcjet/next";
+
+const aj = arject
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    }),
+  )
+  .withRule(
+    fixedWindow({
+      mode: "LIVE",
+      window: "1m",
+      max: 5,
+    }),
+  );
 
 export async function CreateCourseAction(
   values: CourseSchemaType,
 ): Promise<ApiResponse> {
+  const session = await requiredAdmin();
   try {
-    //get user data
-    const session = await auth.api.getSession({
-      headers: await headers(),
+    const req = await request();
+    const desision = await aj.protect(req, {
+      fingerprint: session.user.id,
     });
-
+    if (desision.isDenied()) {
+      if (desision.reason.isRateLimit()) {
+        return {
+          status: "error",
+          message: "You have been blocked due to the Rate limiting",
+        };
+      } else {
+        return {
+          status: "error",
+          message: "You are a bot,if you make mistake contact our support",
+        };
+      }
+    }
     //course validation form zod
     const validation = courseSchema.safeParse(values);
     if (!validation.success) {
