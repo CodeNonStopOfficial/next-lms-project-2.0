@@ -30,7 +30,7 @@ interface iAppProps{
    onChange?:(value:string)=>void
 }
 
-export function Uploader({onChange,value}:iAppProps) {
+export default function Uploader({onChange,value}:iAppProps) {
   //file state
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,

@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -11,7 +10,7 @@ import { MenubarTwo } from "./Menubartwo";
 import Twitch from "@tiptap/extension-twitch";
 import { Youtube } from "@tiptap/extension-youtube";
 
-export function RiceTextEditor({ field }: { field: any }) {
+export default function RiceTextEditor({ field }: { field: any }) {
   const lowlight = createLowlight(all);
   const editor = useEditor({
     extensions: [

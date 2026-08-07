@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -36,8 +37,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { courseCategories } from "@/utils/course-category";
-import { RiceTextEditor } from "@/components/rice-text-editor/Editor";
-import { Uploader } from "@/components/file-uploader/Uploader";
+const RiceTextEditor = dynamic(
+  () => import("@/components/rice-text-editor/Editor"),
+  {
+    ssr: false,
+    loading: () => <p>Loading....</p>,
+  },
+);
+const Uploader = dynamic(() => import("@/components/file-uploader/Uploader"), {
+  ssr: false,
+  loading: () => <p>Loading....</p>,
+});
+
 import { useTransition } from "react";
 import { tryCatch } from "@/hooks/try-catch";
 import { toast } from "@/components/ui/toast";
@@ -45,7 +56,7 @@ import { useRouter } from "next/navigation";
 import { CreateCourseAction } from "../actions";
 
 export function CreateForm() {
-  const [isPending,startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<CourseSchemaType>({
     resolver: zodResolver(courseSchema),
@@ -63,29 +74,29 @@ export function CreateForm() {
     },
   });
   function onSubmit(value: CourseSchemaType) {
-    startTransition(async()=>{
-       const {data,error} = await tryCatch(CreateCourseAction((value)));
-       if(error){
-         toast.add({
-            type : "error",
-            title : "Unexpected Error Please Try Again"
-         })
-         return
-       }
-       if(data.status === 'success'){
-         toast.add({
-           type : "success",
-           title : data?.message
-         });
-         form.reset();
-         router.push("/admin/course")
-       }else if(data.status === "error"){
-            toast.add({
-               type : "error",
-               title : data?.message
-            })
-       }
-    })
+    startTransition(async () => {
+      const { data, error } = await tryCatch(CreateCourseAction(value));
+      if (error) {
+        toast.add({
+          type: "error",
+          title: "Unexpected Error Please Try Again",
+        });
+        return;
+      }
+      if (data.status === "success") {
+        toast.add({
+          type: "success",
+          title: data?.message,
+        });
+        form.reset();
+        router.push("/admin/course");
+      } else if (data.status === "error") {
+        toast.add({
+          type: "error",
+          title: data?.message,
+        });
+      }
+    });
   }
   return (
     <>
@@ -366,20 +377,23 @@ export function CreateForm() {
                   )}
                 />
               </FieldGroup>
-              <Button type="submit" variant="outline" disabled={isPending} className="px-4 md:px-8 py-4.5">
-                 {
-                  isPending ? (
-                    <>
-                     <Loader2 className="size-4 animate-spin"/>
+              <Button
+                type="submit"
+                variant="outline"
+                disabled={isPending}
+                className="px-4 md:px-8 py-4.5"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
                     <span>Loading...</span>
-                    </>
-                  ):(
-                     <>
-                       <Plus className="size-4"/>
-                       <span>Create Course</span>
-                     </>
-                  )
-                 }
+                  </>
+                ) : (
+                  <>
+                    <Plus className="size-4" />
+                    <span>Create Course</span>
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
@@ -392,11 +406,11 @@ export function CreateForm() {
               >
                 Reset
               </Button>
-               <Button
+              <Button
                 type="button"
                 variant="outline"
                 onClick={() => form.reset()}
-               >
+              >
                 Back
               </Button>
             </Field>
