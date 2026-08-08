@@ -216,7 +216,7 @@ export function CreateForm() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-                      <Uploader />
+                      <Uploader/>
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}

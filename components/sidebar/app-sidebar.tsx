@@ -83,7 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <Link href="/">
                   <CommandIcon className="size-5!" />
                   <span className="text-base font-semibold">
-                    CodeNonstop-LMS
+                    Harendra kumar Dog
                   </span>
                 </Link>
               }

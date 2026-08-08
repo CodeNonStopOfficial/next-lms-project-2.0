@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -15,7 +15,7 @@ export default function RiceTextEditor({ field }: { field: any }) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        codeBlock: false
+        codeBlock: false,
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -58,9 +58,12 @@ export default function RiceTextEditor({ field }: { field: any }) {
   });
 
   return (
-    <div className="w-full border border-input rounded-lg overflow-hidden dark:bg-input/30">
-      <Menubar editor={editor} />
-      <MenubarTwo editor={editor} />
+    <div className="w-full max-h-150 overflow-y-scroll rounded-lg border border-input dark:bg-input/30">
+      <div className="sticky top-0 z-50">
+        <Menubar editor={editor} />
+        <MenubarTwo editor={editor} />
+      </div>
+
       <EditorContent editor={editor} />
     </div>
   );
