@@ -122,7 +122,7 @@ export function Uploader({ onChange, value }: iAppProps) {
       if (!presignedResponse.ok) {
         toast.add({
           type: "error",
-          title: "Failed to Get PreSigned URL",
+          title: "Failed to Get Pre-URL, Too Many Request",
         });
         setFileState((prev) => ({
           ...prev,
