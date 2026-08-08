@@ -52,7 +52,7 @@ export async function CreateCourseAction(
         message: "Course Schema Validation Error",
       };
     }
-    const data = await prisma.course.create({
+    await prisma.course.create({
       data: {
         ...validation.data,
         status: validation.data.status as CourseStatus,

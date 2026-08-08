@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { CloudUploadIcon, ImageIcon, Loader2, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Progress, ProgressLabel, ProgressValue } from "../ui/progress";
+import { Progress} from "../ui/progress";
 
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (

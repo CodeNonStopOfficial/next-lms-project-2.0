@@ -12,7 +12,6 @@ import {
 } from "./RenderState";
 import { toast } from "../ui/toast";
 import { v4 as uuidv4 } from "uuid";
-import fa from "zod/v4/locales/fa.cjs";
 
 interface UploaderState {
   id: string | null;
@@ -25,12 +24,12 @@ interface UploaderState {
   objectUrl?: string;
   fileType: "image" | "video";
 }
-interface iAppProps{
-   value ?:string,
-   onChange : (value : string)=> void
+interface iAppProps {
+  value?: string;
+  onChange: (value: string) => void;
 }
 
-export function Uploader({onChange,value} : iAppProps) {
+export function Uploader({ onChange, value }: iAppProps) {
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -39,40 +38,8 @@ export function Uploader({onChange,value} : iAppProps) {
     isDeleting: false,
     fileType: "image",
     progress: 0,
-    key : value,
+    key: value,
   });
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-        if (!file) {
-          toast.add({
-            type: "error",
-            title: "File Not Set-to-Upload",
-          });
-        }
-
-        if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
-          URL.revokeObjectURL(fileState.objectUrl);
-        }
-
-        setFileState({
-          file: file,
-          uploading: false,
-          progress: 0,
-          objectUrl: URL.createObjectURL(file),
-          error: false,
-          id: uuidv4(),
-          isDeleting: false,
-          fileType: "image",
-        });
-
-        uploadFile(file);
-      }
-    },
-    [fileState.objectUrl],
-  );
 
   async function handleRemoveFile() {
     if (fileState.isDeleting || !fileState.objectUrl) return;
@@ -114,7 +81,7 @@ export function Uploader({onChange,value} : iAppProps) {
         progress: 0,
         objectUrl: undefined,
       }));
-  
+
       toast.add({
         type: "success",
         title: "File Deleted Successfully",
@@ -170,13 +137,13 @@ export function Uploader({onChange,value} : iAppProps) {
 
       console.log({ presignedUrl, key });
       await new Promise<void>((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
           if (event.lengthComputable) {
-            const percentageCompleted = (event.loaded / event.total) * 100;
+            const percentageCompleted = Math.round((event.loaded / event.total) * 100);
             setFileState((prev) => ({
               ...prev,
-              progress: Math.round(percentageCompleted),
+              progress: percentageCompleted,
             }));
           }
         };
@@ -243,6 +210,37 @@ export function Uploader({onChange,value} : iAppProps) {
     }
   }
 
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
+        if (!file) {
+          toast.add({
+            type: "error",
+            title: "File Not Set-to-Upload",
+          });
+        }
+
+        if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
+          URL.revokeObjectURL(fileState.objectUrl);
+        }
+
+        setFileState({
+          file: file,
+          uploading: false,
+          progress: 0,
+          objectUrl: URL.createObjectURL(file),
+          error: false,
+          id: uuidv4(),
+          isDeleting: false,
+          fileType: "image",
+        });
+        uploadFile(file);
+      }
+    },
+    [fileState.objectUrl],
+  );
+
   function renderContent() {
     if (fileState.uploading) {
       return (
@@ -258,7 +256,11 @@ export function Uploader({onChange,value} : iAppProps) {
     if (fileState.objectUrl) {
       return (
         <>
-          <RenderComplelted previewUrl={fileState.objectUrl} handleRemoveFile={handleRemoveFile} isDeleting={fileState.isDeleting} />
+          <RenderComplelted
+            previewUrl={fileState.objectUrl}
+            handleRemoveFile={handleRemoveFile}
+            isDeleting={fileState.isDeleting}
+          />
         </>
       );
     }
@@ -282,7 +284,7 @@ export function Uploader({onChange,value} : iAppProps) {
     multiple: false,
     maxSize: 5 * 1024 * 1024,
     onDropRejected: rejectedFiles,
-    disabled : fileState.uploading || !!fileState.objectUrl
+    disabled: fileState.uploading || !!fileState.objectUrl,
   });
 
   return (

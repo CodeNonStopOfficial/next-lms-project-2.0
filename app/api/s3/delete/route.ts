@@ -23,7 +23,7 @@ export async function DELETE(request: Request) {
       { message: "File Deleted Successfully" },
       { status: 200 },
     );
-  } catch (error) {
+  } catch{
     return NextResponse.json(
       { message: "Internal Server Error To Delete File" },
       { status: 500 },
