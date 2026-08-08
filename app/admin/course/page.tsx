@@ -19,12 +19,7 @@ export default function CoursePage() {
         </Link>
       </div>
       <div>
-        <h1 className="text-muted-foreground text-[16px] font-normal">
-          Hare You will see all of the Course
-        </h1>
-      </div>
-      <div>
-        <h1>Course Card Hare</h1>
+        <h1>Course Page</h1>
       </div>
     </section>
   );

@@ -33,7 +33,7 @@ export function DashboardSkeleton() {
         <div className="rounded-xl border p-6 lg:col-span-2 space-y-4">
           <Skeleton className="h-6 w-40" />
 
-          <Skeleton className="h-[280px] w-full rounded-lg" />
+          <Skeleton className="h-70 w-full rounded-lg" />
         </div>
 
         {/* Activity */}

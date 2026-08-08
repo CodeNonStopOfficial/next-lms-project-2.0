@@ -44,16 +44,13 @@ const RiceTextEditor = dynamic(
     loading: () => <p>Loading....</p>,
   },
 );
-const Uploader = dynamic(() => import("@/components/file-uploader/Uploader"), {
-  ssr: false,
-  loading: () => <p>Loading....</p>,
-});
 
 import { useTransition } from "react";
 import { tryCatch } from "@/hooks/try-catch";
 import { toast } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 import { CreateCourseAction } from "../actions";
+import { Uploader } from "@/components/file-uploader/Uploader";
 
 export function CreateForm() {
   const [isPending, startTransition] = useTransition();
@@ -219,7 +216,7 @@ export function CreateForm() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-                      <Uploader onChange={field.onChange} value={field.value} />
+                      <Uploader />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -307,6 +304,7 @@ export function CreateForm() {
                           {...field}
                           aria-invalid={fieldState.invalid}
                           value={field.value ?? ""}
+                          type="number"
                           onChange={(e) =>
                             field.onChange(Number(e.target.value))
                           }
@@ -329,6 +327,7 @@ export function CreateForm() {
                         <Input
                           {...field}
                           id="price"
+                          type="number"
                           value={field.value ?? ""}
                           aria-invalid={fieldState.invalid}
                           onChange={(e) =>
