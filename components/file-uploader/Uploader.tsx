@@ -4,7 +4,7 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { RenderEmptyState, RenderErrorState } from "./RenderState";
+import { RenderComplelted, RenderEmptyState, RenderErrorState } from "./RenderState";
 import { toast } from "../ui/toast";
 import { v4 as uuidv4 } from "uuid";
 
@@ -171,7 +171,7 @@ export function Uploader() {
     if (fileState.uploading) {
       return (
         <div>
-          <h1>Uploading...</h1>
+           <h1>Uploading....</h1>
         </div>
       );
     }
@@ -180,9 +180,9 @@ export function Uploader() {
     }
     if (fileState.objectUrl) {
       return (
-        <div>
-          <h1>Uploaded File...</h1>
-        </div>
+        <>
+         <RenderComplelted previewUrl={fileState.objectUrl}/>
+        </>
       );
     }
     return <RenderEmptyState isDragActive={isDragActive} />;
