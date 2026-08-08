@@ -1,12 +1,21 @@
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/sidebar/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { requiredAdmin } from "../data/admin/require-admin";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  
+  const session =  await requiredAdmin();
+
+  if(!session){
+    return redirect("/")
+  }
+  
   return (
     <SidebarProvider
       style={

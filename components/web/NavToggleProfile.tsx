@@ -9,11 +9,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
+    BadgeDollarSign,
   BellIcon,
   LayoutDashboard,
   LogOutIcon,
   Settings,
+  SquareLibrary,
   User,
+  Wallpaper,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
@@ -32,6 +35,7 @@ interface UserDataProps {
     emailVerified: boolean;
     name: string;
     image?: string | null;
+    role?: string;
   }>;
 }
 
@@ -79,7 +83,7 @@ export function NavToggleProfile({ user }: UserDataProps) {
         />
         <DropdownMenuContent
           align="center"
-          className="text-[18px] font-normal w-37.5"
+          className="text-[18px] font-normal w-47.5"
         >
           <DropdownMenuGroup>
             <DropdownMenuItem>
@@ -89,9 +93,21 @@ export function NavToggleProfile({ user }: UserDataProps) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
+              <Link href="/my-course" className="flex gap-2">
+               <Wallpaper />
+                My Course
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/course" className="flex gap-2">
+               <SquareLibrary />
+                Course
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
               <Link href="/settings" className="flex gap-2">
-                <Settings />
-                Setting
+                 <BadgeDollarSign />
+                Batch
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
@@ -100,12 +116,21 @@ export function NavToggleProfile({ user }: UserDataProps) {
                 Notifications
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/admin/dashboard" className="flex gap-2">
-                <LayoutDashboard />
-                 Dashboard
-              </Link>
-            </DropdownMenuItem>
+            {user?.role === "admin" ? (
+              <DropdownMenuItem>
+                <Link href="/admin/dashboard" className="flex gap-2">
+                  <LayoutDashboard />
+                   Dashboard
+                </Link>
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem>
+                <Link href="/dashboard" className="flex gap-2">
+                  <LayoutDashboard />
+                  Dashboard
+                </Link>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem
