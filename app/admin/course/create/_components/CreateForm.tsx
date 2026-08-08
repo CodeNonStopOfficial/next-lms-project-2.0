@@ -52,6 +52,9 @@ import { useRouter } from "next/navigation";
 import { CreateCourseAction } from "../actions";
 import { Uploader } from "@/components/file-uploader/Uploader";
 
+
+
+
 export function CreateForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -216,7 +219,7 @@ export function CreateForm() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-                      <Uploader/>
+                      <Uploader onChange={field.onChange} value={field.value}/>
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}

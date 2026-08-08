@@ -1,13 +1,18 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { RenderComplelted, RenderEmptyState, RenderErrorState } from "./RenderState";
+import {
+  RenderComplelted,
+  RenderEmptyState,
+  RenderErrorState,
+  RenderProgresingState,
+} from "./RenderState";
 import { toast } from "../ui/toast";
 import { v4 as uuidv4 } from "uuid";
-
+import fa from "zod/v4/locales/fa.cjs";
 
 interface UploaderState {
   id: string | null;
@@ -20,8 +25,12 @@ interface UploaderState {
   objectUrl?: string;
   fileType: "image" | "video";
 }
+interface iAppProps{
+   value ?:string,
+   onChange : (value : string)=> void
+}
 
-export function Uploader() {
+export function Uploader({onChange,value} : iAppProps) {
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -30,32 +39,98 @@ export function Uploader() {
     isDeleting: false,
     fileType: "image",
     progress: 0,
+    key : value,
   });
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-      if (!file) {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
+        if (!file) {
+          toast.add({
+            type: "error",
+            title: "File Not Set-to-Upload",
+          });
+        }
+
+        if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
+          URL.revokeObjectURL(fileState.objectUrl);
+        }
+
+        setFileState({
+          file: file,
+          uploading: false,
+          progress: 0,
+          objectUrl: URL.createObjectURL(file),
+          error: false,
+          id: uuidv4(),
+          isDeleting: false,
+          fileType: "image",
+        });
+
+        uploadFile(file);
+      }
+    },
+    [fileState.objectUrl],
+  );
+
+  async function handleRemoveFile() {
+    if (fileState.isDeleting || !fileState.objectUrl) return;
+    try {
+      setFileState((prev) => ({
+        ...prev,
+        isDeleting: true,
+      }));
+      const response = await fetch("/api/s3/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          key: fileState.key,
+        }),
+      });
+      if (!response.ok) {
         toast.add({
           type: "error",
-          title: "File Not Set-to-Upload",
+          title: "Failed to Delete File From Storage",
         });
+        setFileState((prev) => ({
+          ...prev,
+          isDeleting: true,
+          error: true,
+        }));
+        return;
       }
-
-      setFileState({
-        file: file,
-        uploading: false,
-        progress: 0,
-        objectUrl: URL.createObjectURL(file),
+      if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
+        URL.revokeObjectURL(fileState.objectUrl);
+      }
+      onChange?.("");
+      setFileState(() => ({
         error: false,
-        id: uuidv4(),
+        file: null,
+        id: null,
+        uploading: false,
         isDeleting: false,
         fileType: "image",
+        progress: 0,
+        objectUrl: undefined,
+      }));
+  
+      toast.add({
+        type: "success",
+        title: "File Deleted Successfully",
       });
-
-      uploadFile(file);
+    } catch {
+      toast.add({
+        type: "error",
+        title: "File Remove Interal Error.!",
+      });
+      setFileState((prev) => ({
+        ...prev,
+        isDeleting: false,
+        error: true,
+      }));
     }
-  }, []);
+  }
 
   async function uploadFile(file: File) {
     setFileState((prev) => ({
@@ -92,9 +167,9 @@ export function Uploader() {
       }
 
       const { presignedUrl, key } = await presignedResponse.json();
-      
-      console.log({presignedUrl,key});
-      await new Promise<void>((resolve,reject) => {
+
+      console.log({ presignedUrl, key });
+      await new Promise<void>((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
           if (event.lengthComputable) {
@@ -113,6 +188,7 @@ export function Uploader() {
               uploading: false,
               key: key,
             }));
+            onChange?.(key);
             toast.add({
               type: "success",
               title: "File Uploaded Successfully",
@@ -122,7 +198,7 @@ export function Uploader() {
             reject(new Error("Uploaded failed"));
           }
         };
-        
+
         xhr.onerror = () => {
           reject(new Error("Uploaded Failed"));
         };
@@ -170,9 +246,10 @@ export function Uploader() {
   function renderContent() {
     if (fileState.uploading) {
       return (
-        <div>
-           <h1>Uploading....</h1>
-        </div>
+        <RenderProgresingState
+          progress={fileState.progress}
+          file={fileState.file as File}
+        />
       );
     }
     if (fileState.error) {
@@ -181,12 +258,20 @@ export function Uploader() {
     if (fileState.objectUrl) {
       return (
         <>
-         <RenderComplelted previewUrl={fileState.objectUrl}/>
+          <RenderComplelted previewUrl={fileState.objectUrl} handleRemoveFile={handleRemoveFile} isDeleting={fileState.isDeleting} />
         </>
       );
     }
     return <RenderEmptyState isDragActive={isDragActive} />;
   }
+
+  useEffect(() => {
+    return () => {
+      if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
+        URL.revokeObjectURL(fileState.objectUrl);
+      }
+    };
+  }, [fileState.objectUrl]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -197,6 +282,7 @@ export function Uploader() {
     multiple: false,
     maxSize: 5 * 1024 * 1024,
     onDropRejected: rejectedFiles,
+    disabled : fileState.uploading || !!fileState.objectUrl
   });
 
   return (

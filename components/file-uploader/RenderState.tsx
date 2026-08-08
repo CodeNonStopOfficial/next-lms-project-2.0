@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
-import { CloudUploadIcon, ImageIcon, XIcon } from "lucide-react";
+import { CloudUploadIcon, ImageIcon, Loader2, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { Progress, ProgressLabel, ProgressValue } from "../ui/progress";
 
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (
@@ -42,13 +43,62 @@ export function RenderErrorState() {
   );
 }
 
-export function RenderComplelted({previewUrl}:{previewUrl:string}) {
+export function RenderComplelted({
+  previewUrl,
+  isDeleting,
+  handleRemoveFile,
+}: {
+  previewUrl: string;
+  isDeleting: boolean;
+  handleRemoveFile: () => void;
+}) {
   return (
     <div className="items-center justify-center mx-auto flex flex-col w-full space-y-2">
-       <Image src={previewUrl} alt="Uploaded File" fill className="object-contain p-2"/>
-       <Button type="button" variant="outline" size="icon" className={cn("absolute top-4 right-4")}>
-           <XIcon className="size-4"/>
-       </Button>
+      <Image
+        src={previewUrl}
+        alt="Uploaded File"
+        fill
+        className="object-contain p-2"
+      />
+      <Button
+        onClick={handleRemoveFile}
+        type="button"
+        variant="outline"
+        size="icon"
+        disabled={isDeleting}
+        className={cn("absolute top-4 right-4")}
+      >
+        {isDeleting ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <XIcon className="size-4" />
+        )}
+      </Button>
+    </div>
+  );
+}
+
+export function RenderProgresingState({
+  progress,
+  file,
+}: {
+  progress: number;
+  file: File;
+}) {
+  return (
+    <div className="items-center justify-center mx-auto flex flex-col w-full space-y-1">
+      <div className="flex flex-col items-center mx-auto justify-center border-[#107b08]">
+        <h1 className="text-[16px] item-center text-center text-[#36ff03] font-semibold">
+          {progress}%
+        </h1>
+        <Progress value={progress} className="w-75 border" />
+      </div>
+      <p className="text-[#06011e] dark:text-primary font-normal">
+        {file?.name}
+      </p>
+      <Button type="button" className="px-8 py-4.5 mx-auto">
+        {progress ? "Uploded" : "Uploding"}
+      </Button>
     </div>
   );
 }
