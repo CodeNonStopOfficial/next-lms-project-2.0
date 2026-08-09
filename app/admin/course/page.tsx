@@ -2,10 +2,10 @@ import { adminGetCourses } from "@/app/data/admin/admin-get-course";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { AdminCourseCard } from "./_components/AdminCourseCard";
-import { getImageUrl } from "@/lib/generate-url";
+import { Suspense } from "react";
+import { DashboardSkeleton } from "@/components/common/DashboardSkeleton";
 
 export default async function CoursePage() {
-  const data = await adminGetCourses();
   return (
     <section className="w-full px-4 md:px-5 py-4 space-y-4">
       <div className="flex items-center justify-between">
@@ -22,13 +22,20 @@ export default async function CoursePage() {
           Create Course
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg-grid-cols-4 gap-4">
-        {
-          data.map((course)=>(
-             <AdminCourseCard key={course.id} data={course}/>
-          ))
-        }
-      </div>
+      <Suspense fallback={<DashboardSkeleton />}>
+        <CourseDataContent />
+      </Suspense>
     </section>
+  );
+}
+
+async function CourseDataContent() {
+  const data = await adminGetCourses();
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg-grid-cols-4 gap-4">
+      {data.map((course) => (
+        <AdminCourseCard key={course.id} data={course} />
+      ))}
+    </div>
   );
 }

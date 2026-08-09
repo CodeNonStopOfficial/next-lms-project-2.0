@@ -1,9 +1,31 @@
 import { AdminCourseType } from "@/app/data/admin/admin-get-course";
-import { Card, CardDescription, CardHeader, CardTitle,CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
 import { getImageUrl } from "@/lib/generate-url";
 import Image from "next/image";
-import {Button} from "@/components/ui/button";
-import {Badge} from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Delete,
+  Edit,
+  Eye,
+  MoreVertical,
+  TimerIcon,
+  Trash2,
+} from "lucide-react";
+import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface CourseCardProps {
   data: AdminCourseType;
@@ -20,24 +42,89 @@ export async function AdminCourseCard({ data }: CourseCardProps) {
         height={400}
         className=" object-cover border dark:bg-primary/10 bg-primary/5 rounded-2xl"
       />
-      <Badge variant="outline" className=" absolute top-2 left-1">{data.level}</Badge>
-      <CardHeader className="px-2 w-full h-fit">
-         <CardTitle  className="font-normal text-base line-clamp-2 text-[16px]">{data.title}</CardTitle>
-         <CardDescription className="flex items-center justify-between">
-             <div className="flex items-center gap-1">
-              <Badge variant="outline">{data.category}</Badge>
-              <Badge variant="outline">{data.status}</Badge>
-             </div>
-             <Badge variant="secondary">{data.duration}hr</Badge>
-         </CardDescription>
+      <div className=" absolute top-2 right-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button variant="secondary" size="icon">
+                <MoreVertical className="size-4" />
+              </Button>
+            }
+          ></DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <Link
+                href={`/admin/course/${data.id}/edit`}
+                className="flex items-center"
+              >
+                <Edit className="size-4 mr-2" />
+                Edit Course
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                href={`/course/${data.slug.toLocaleLowerCase()}`}
+                className="flex items-center"
+              >
+                <Eye className="size-4 mr-2" />
+                Preview
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className={buttonVariants(({
+               variant : "destructive",
+               className : "w-full text-start"
+            }))}>
+              <Link
+                href={`/admin/course/${data.id}/delete`}
+                className="flex text-start"
+              >
+                <Trash2 className="size-4 mr-2" />
+                Delete
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <Badge variant="secondary" className=" absolute top-2 left-1">
+        {data.level}
+      </Badge>
+      <CardHeader className="px-2 w-full space-y-1">
+        <CardTitle className="font-normal text-base line-clamp-2 text-[16px]">
+          <Link
+            href={`/admin/course/${data.id}/edit`}
+            className="hover:text-primary/60 hover:underline"
+          >
+            {data.title}
+          </Link>
+        </CardTitle>
+        <CardDescription className="flex items-center justify-between">
+          <Badge variant="outline">{data.category}</Badge>
+          <Badge variant="secondary">
+            <TimerIcon className="size-4 rounded-md text-primary bg-primary/10" />
+            <span>{data.duration}hr</span>
+          </Badge>
+        </CardDescription>
       </CardHeader>
       <CardContent className="px-2">
-           <p className="text-base line-clamp-2">{data.smallDescription}</p>
+        <p className="text-base line-clamp-2 text-muted-foreground">
+          {data.smallDescription}
+        </p>
       </CardContent>
       <CardDescription className="flex items-center justify-between gap-2 px-2">
-         <Button variant="secondary">{data.level}</Button>
-         <Button variant="secondary">₹ {data.price}</Button>
-      </CardDescription> 
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/admin/course/${data.id}/edit`}
+            className={buttonVariants({
+              variant: "outline",
+            })}
+          >
+            Edit Course
+          </Link>
+          <Button variant="secondary">{data.status}</Button>
+        </div>
+        <Button variant="secondary">₹ {data.price}</Button>
+      </CardDescription>
     </Card>
   );
 }
