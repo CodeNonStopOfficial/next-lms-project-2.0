@@ -134,13 +134,15 @@ export function Uploader({ onChange, value }: iAppProps) {
       }
 
       const { presignedUrl, key } = await presignedResponse.json();
-
-      console.log({ presignedUrl, key });
+      
+      console.log(presignedUrl + "virndra" + key);
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
           if (event.lengthComputable) {
-            const percentageCompleted = Math.round((event.loaded / event.total) * 100);
+            const percentageCompleted = Math.round(
+              (event.loaded / event.total) * 100,
+            );
             setFileState((prev) => ({
               ...prev,
               progress: percentageCompleted,

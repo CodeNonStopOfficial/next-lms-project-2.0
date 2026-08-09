@@ -2,11 +2,12 @@ import { adminGetCourses } from "@/app/data/admin/admin-get-course";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { AdminCourseCard } from "./_components/AdminCourseCard";
+import { getImageUrl } from "@/lib/generate-url";
 
 export default async function CoursePage() {
   const data = await adminGetCourses();
   return (
-    <section className="w-full px-4 md:px-5 py-4">
+    <section className="w-full px-4 md:px-5 py-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-sm md:text-2xl font-bold">
           Your All Public and Private Courses!
@@ -21,7 +22,7 @@ export default async function CoursePage() {
           Create Course
         </Link>
       </div>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg-grid-cols-4 gap-4">
         {
           data.map((course)=>(
              <AdminCourseCard key={course.id} data={course}/>

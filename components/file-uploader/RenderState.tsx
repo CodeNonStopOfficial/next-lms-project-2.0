@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { CloudUploadIcon, ImageIcon, Loader2, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Progress} from "../ui/progress";
+import { Progress } from "../ui/progress";
 
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (
@@ -91,7 +91,7 @@ export function RenderProgresingState({
         <h1 className="text-[16px] item-center text-center text-[#36ff03] font-semibold">
           {progress}%
         </h1>
-        <Progress value={progress} className="w-75 border" />
+        <Progress value={progress} className="w-45 md:w-75 border" />
       </div>
       <p className="text-[#06011e] dark:text-primary font-normal">
         {file?.name}

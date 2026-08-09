@@ -5,13 +5,11 @@ const nextConfig: NextConfig = {
      remotePatterns :[
         {
             protocol : "https",
-            hostname : "tigris-demo-bucket.tigrisfiles.io",
-            port : ''
+            hostname : "codenonstop-next-project-2026.t3.tigrisfiles.io",
         },
         {
             protocol : "https",
-            hostname : "tigris-demo-bucket.t3.tigrisfiles.io",
-            port : ''
+            hostname : "codenonstop-next-project-2026.t3.storage.dev",
         }
      ]
   }
