@@ -20,7 +20,8 @@ export async function adminGetCoursePer(id:string){
             duration : true,
             level : true,
             slug :true,
-            category : true
+            category : true,
+            status : true
          }
      });
      if(!data){
@@ -28,3 +29,5 @@ export async function adminGetCoursePer(id:string){
      }
      return data;
 }
+
+export type AdminCourseEditType = Awaited<ReturnType<typeof adminGetCoursePer>>;

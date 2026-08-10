@@ -1,7 +1,13 @@
 import { adminGetCoursePer } from "@/app/data/admin/admin-getper-course";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EditCourseForm } from "./_components/EditCourseForm";
+import { EditCourseFrom } from "./_components/EditCourseForm";
 
 export default async function CourseEditPage({
   params,
@@ -21,15 +27,17 @@ export default async function CourseEditPage({
           <TabsTrigger value="course-structure">Course Structure</TabsTrigger>
         </TabsList>
         <TabsContent value="basic-info">
-             <Card>
-                 <CardHeader>
-                    <CardTitle>Basic Information</CardTitle>
-                    <CardDescription>Edit Basic Information About the Course</CardDescription>
-                 </CardHeader>
-                 <CardContent>
-                     <EditCourseForm/>
-                 </CardContent>
-             </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Basic Information</CardTitle>
+              <CardDescription>
+                Edit Basic Information About the Course
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EditCourseFrom course={data} />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
