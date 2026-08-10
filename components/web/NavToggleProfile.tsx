@@ -34,8 +34,8 @@ interface UserDataProps {
     email: string;
     emailVerified: boolean;
     name: string;
-    image?: string | null;
-    role?: string | null;
+    image?: string;
+    role?: string;
   }>;
 }
 
