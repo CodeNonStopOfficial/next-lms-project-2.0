@@ -342,7 +342,7 @@ export function EditCourseFrom({ course }: iAppProps) {
         ) : (
           <>
             <Plus className="size-4" />
-            <span>Create Course</span>
+            <span>Update Course</span>
           </>
         )}
       </Button>

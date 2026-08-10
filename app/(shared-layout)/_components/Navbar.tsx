@@ -40,11 +40,18 @@ export function Navbar() {
             <NavToggleProfile user={session.user} />
           ) : (
             <div className="flex gap-2">
-              <Button className="px-6 py-4.5 text-[16px]" variant="secondary">
+              <Button
+                className="px-6 py-4.5 text-[16px]"
+                variant="secondary"
+              >
                 <Link href="/login">Login</Link>
               </Button>
-              <Button className="hidden md:flex px-6 py-4.5 text-[16px]" variant="outline">
-                <Link href="/get-started">Get-Started</Link>
+
+              <Button
+                className="hidden px-6 py-4.5 text-[16px] md:flex"
+                variant="outline"
+              >
+                <Link href="/get-started">Get Started</Link>
               </Button>
             </div>
           )}

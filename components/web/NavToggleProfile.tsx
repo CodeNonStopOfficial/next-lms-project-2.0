@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
-    BadgeDollarSign,
+  BadgeDollarSign,
   BellIcon,
   LayoutDashboard,
   LogOutIcon,
@@ -23,8 +23,8 @@ import { useTransition } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
-import { StripEmptyObjects } from "better-auth";
 import Link from "next/link";
+import { StripEmptyObjects } from "better-auth/client";
 
 interface UserDataProps {
   user: StripEmptyObjects<{
@@ -35,7 +35,7 @@ interface UserDataProps {
     emailVerified: boolean;
     name: string;
     image?: string | null;
-    role?: string;
+    role?: string | null;
   }>;
 }
 
@@ -94,19 +94,19 @@ export function NavToggleProfile({ user }: UserDataProps) {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/my-course" className="flex gap-2">
-               <Wallpaper />
+                <Wallpaper />
                 My Course
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/course" className="flex gap-2">
-               <SquareLibrary />
+                <SquareLibrary />
                 Course
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/settings" className="flex gap-2">
-                 <BadgeDollarSign />
+                <BadgeDollarSign />
                 Batch
               </Link>
             </DropdownMenuItem>
@@ -120,7 +120,7 @@ export function NavToggleProfile({ user }: UserDataProps) {
               <DropdownMenuItem>
                 <Link href="/admin/dashboard" className="flex gap-2">
                   <LayoutDashboard />
-                   Dashboard
+                  Dashboard
                 </Link>
               </DropdownMenuItem>
             ) : (

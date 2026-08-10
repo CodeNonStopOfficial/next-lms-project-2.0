@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EditCourseFrom } from "./_components/EditCourseForm";
+import { CourseStucture } from "./_components/CourseStucture";
 
 export default async function CourseEditPage({
   params,
@@ -36,6 +37,19 @@ export default async function CourseEditPage({
             </CardHeader>
             <CardContent>
               <EditCourseFrom course={data} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+         <TabsContent value="course-structure">
+          <Card>
+            <CardHeader>
+              <CardTitle>Basic Information</CardTitle>
+              <CardDescription>
+                Edit Course Structure Information About the Course
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CourseStucture/>
             </CardContent>
           </Card>
         </TabsContent>

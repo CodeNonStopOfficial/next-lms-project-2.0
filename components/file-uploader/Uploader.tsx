@@ -41,7 +41,7 @@ export function Uploader({ onChange, value }: iAppProps) {
     fileType: "image",
     progress: 0,
     key: value,
-    objectUrl: "",
+    objectUrl : imageUrl
   });
 
   useEffect(() => {
@@ -145,7 +145,6 @@ export function Uploader({ onChange, value }: iAppProps) {
       }
 
       const { presignedUrl, key } = await presignedResponse.json();
-
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
@@ -296,7 +295,7 @@ export function Uploader({ onChange, value }: iAppProps) {
     multiple: false,
     maxSize: 5 * 1024 * 1024,
     onDropRejected: rejectedFiles,
-    disabled: fileState.uploading || !!fileState.objectUrl,
+    disabled: fileState.uploading, // || !!fileState.objectUrl,
   });
 
   return (

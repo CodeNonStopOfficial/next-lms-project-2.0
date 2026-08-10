@@ -56,9 +56,9 @@ export function RenderComplelted({
     <div className="items-center justify-center mx-auto flex flex-col w-full space-y-2">
       <Image
         src={previewUrl}
-        alt="Uploaded File"
+        alt="Uploading File"
         fill
-        className="object-contain p-2"
+        className="object-contain p-2 " 
       />
       <Button
         onClick={handleRemoveFile}

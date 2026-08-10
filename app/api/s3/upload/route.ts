@@ -47,12 +47,12 @@ export async function POST(request: Request) {
 
     const { fileName, contentType, size } = validation.data;
 
-    const uniquekEY = `${uuidv4()}-${fileName}`;
+    const uniquekey = `${uuidv4()}-${fileName}`;
     const command = new PutObjectCommand({
       Bucket: env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES!,
       ContentType: contentType,
       ContentLength: size,
-      Key: uniquekEY,
+      Key: uniquekey,
     });
     const presignedUrl = await getSignedUrl(S3, command, {
       expiresIn: 360, // 6 minutes
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
     const response = {
       presignedUrl,
-      key: uniquekEY,
+      key: uniquekey,
     };
     return NextResponse.json(response);
   } catch {
