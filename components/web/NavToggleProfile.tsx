@@ -13,7 +13,6 @@ import {
   BellIcon,
   LayoutDashboard,
   LogOutIcon,
-  Settings,
   SquareLibrary,
   User,
   Wallpaper,
@@ -26,7 +25,7 @@ import { toast } from "../ui/toast";
 import Link from "next/link";
 import { StripEmptyObjects } from "better-auth/client";
 
-interface UserDataProps {
+type UserDataProps = {
   user: StripEmptyObjects<{
     id: string;
     createdAt: Date;
@@ -34,10 +33,11 @@ interface UserDataProps {
     email: string;
     emailVerified: boolean;
     name: string;
-    image?: string;
-    role?: string;
+    image?: string | null;
+    role?: string | null;
+    banned?: boolean | null;
   }>;
-}
+};
 
 export function NavToggleProfile({ user }: UserDataProps) {
   const router = useRouter();
