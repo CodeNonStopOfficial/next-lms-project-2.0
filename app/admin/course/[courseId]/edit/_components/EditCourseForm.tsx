@@ -7,7 +7,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { ArrowLeft, Loader2, Plus, SparkleIcon } from "lucide-react";
+import { Loader2, Plus, SparkleIcon } from "lucide-react";
 import { useTransition } from "react";
 import { tryCatch } from "@/hooks/try-catch";
 import { toast } from "@/components/ui/toast";

@@ -33,6 +33,7 @@ interface CourseCardProps {
 
 export async function AdminCourseCard({ data }: CourseCardProps) {
   const imageUrl = await getImageUrl(data.fileKey);
+  console.log(imageUrl);
   return (
     <Card className="group relative">
       <Image

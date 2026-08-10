@@ -12,6 +12,7 @@ import {
 } from "./RenderState";
 import { toast } from "../ui/toast";
 import { v4 as uuidv4 } from "uuid";
+import { useConstructorFile } from "@/hooks/use-contructor";
 
 interface UploaderState {
   id: string | null;
@@ -30,6 +31,7 @@ interface iAppProps {
 }
 
 export function Uploader({ onChange, value }: iAppProps) {
+  const imageUrl = useConstructorFile(value || "");
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -39,7 +41,16 @@ export function Uploader({ onChange, value }: iAppProps) {
     fileType: "image",
     progress: 0,
     key: value,
+    objectUrl: "",
   });
+
+  useEffect(() => {
+    setFileState((prev) => ({
+      ...prev,
+      key: value,
+      objectUrl: imageUrl || prev.objectUrl,
+    }));
+  }, [value, imageUrl]);
 
   async function handleRemoveFile() {
     if (fileState.isDeleting || !fileState.objectUrl) return;
@@ -134,8 +145,7 @@ export function Uploader({ onChange, value }: iAppProps) {
       }
 
       const { presignedUrl, key } = await presignedResponse.json();
-      
-      console.log(presignedUrl + "virndra" + key);
+
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
