@@ -49,7 +49,7 @@ export default async function CourseEditPage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <CourseStucture/>
+              <CourseStucture data={data}/>
             </CardContent>
           </Card>
         </TabsContent>
