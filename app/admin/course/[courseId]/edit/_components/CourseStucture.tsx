@@ -37,7 +37,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "@/components/ui/toast";
 import { reorderChapter, reorderLessons } from "../actions";
-import { positive } from "better-auth";
 
 interface iAppProps {
   data: AdminCourseEditType;
