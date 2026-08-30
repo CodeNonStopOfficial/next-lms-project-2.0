@@ -97,8 +97,8 @@ export function NewChapterModel({ courseId }: { courseId: string }) {
           <Button type="submit" className="py-4.5 w-full">
             {isPending ? (
               <>
-              <Loader2 className="size-4 animate-spin"/>
-               Loading...
+                <Loader2 className="size-4 animate-spin" />
+                Loading...
               </>
             ) : (
               <>
