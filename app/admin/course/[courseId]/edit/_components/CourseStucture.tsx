@@ -22,7 +22,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { AdminCourseEditType } from "@/app/data/admin/admin-getper-course";
@@ -68,6 +68,23 @@ export function CourseStucture({ data }: iAppProps) {
     })) || [];
 
   const [items, setItems] = useState(initialItems);
+
+  useEffect(() => {
+    setItems((prevItem) => {
+      const updatedItems = data.chapter.map((chapter) => ({
+        id: chapter.id,
+        title: chapter.title,
+        order: chapter.position,
+        isOpen: prevItem.find((item)=>item.id === chapter.id)?.isOpen ?? true,
+        lessons: chapter.lessons.map((lesson) => ({
+          id: lesson.id,
+          order: lesson.position,
+          title: lesson.title,
+        })),
+      }))||[];
+      return updatedItems;
+    });
+  },[data]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
