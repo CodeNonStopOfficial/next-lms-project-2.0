@@ -168,6 +168,7 @@ export async function reorderChapter(
 export async function createChapter(
   values: ChapterSchemaType,
 ): Promise<ApiResponse> {
+  await requiredAdmin();
   try {
     const result = chapterSchema.safeParse(values);
     if (!result.success) {
