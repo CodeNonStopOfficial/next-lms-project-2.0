@@ -7,6 +7,7 @@ import { CourseStatus } from "@/lib/generated/prisma/client";
 import { ApiResponse } from "@/lib/type";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
 import { request } from "@arcjet/next";
+import { revalidatePath } from "next/cache";
 
 const aj = arject
   .withRule(
@@ -81,6 +82,84 @@ export async function editCourse(
     return {
       status: "error",
       message: "Failed to Update course",
+    };
+  }
+}
+
+export async function reorderLessons(
+  chapterId: string,
+  lessons: {
+    id: string;
+    position: number;
+  }[],
+  courseId: string,
+): Promise<ApiResponse> {
+  await requiredAdmin();
+  try {
+    if (!lessons || lessons.length === 0) {
+      return {
+        status: "error",
+        message: "No Lesson Provided for reordering",
+      };
+    }
+    const updates = lessons.map((lesson) =>
+      prisma.lesson.update({
+        where: {
+          id: lesson.id,
+          chapterId: chapterId,
+        },
+        data: {
+          position: lesson.position,
+        },
+      }),
+    );
+    await prisma.$transaction(updates);
+    revalidatePath(`/admin/course/${courseId}/edit`);
+    return {
+      status: "success",
+      message: "Lesson Reordered Successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Failed to reorder lesson",
+    };
+  }
+}
+
+export async function reorderChapter(
+  courseId: string,
+  chapters: { id: string; position: number }[],
+): Promise<ApiResponse> {
+  await requiredAdmin();
+  try {
+    if (!chapters || chapters.length === 0) {
+      return {
+        status: "error",
+        message: "No Chapater Provided For Reordering",
+      };
+    }
+    const updates = chapters.map((chapter) =>
+      prisma.chapter.update({
+        where: {
+          id: chapter.id,
+          courseId: courseId,
+        },
+        data: {
+          position: chapter.position,
+        },
+      }),
+    );
+    await prisma.$transaction(updates);
+    revalidatePath(`/admin/course/${courseId}/edit`);
+    return {
+      status: "success",
+      message: "Chapter Reordered Successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Internal Error Chapter Reorded",
     };
   }
 }

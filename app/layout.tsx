@@ -41,7 +41,7 @@ export default function RootLayout({
         geist.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" cz-shortcut-listen="true">
         <TooltipProvider>
           <ThemeProvider
             attribute="class"
