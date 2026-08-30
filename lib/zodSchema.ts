@@ -38,3 +38,11 @@ export const courseSchema = z.object({
 });
 
 export type CourseSchemaType = z.infer<typeof courseSchema>;
+
+
+export const chapterSchema = z.object({
+   name : z.string().min(3,{message : "Name must be 3 characters long"}).max(50,{message:"Chapater name must be to many long"}),
+   courseId :  z.string().uuid({message : "Invalide Course Id"}),
+});
+
+export type ChapterSchemaType = z.infer<typeof chapterSchema>;

@@ -8,6 +8,7 @@ import { ApiResponse } from "@/lib/type";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
 import { request } from "@arcjet/next";
 import { revalidatePath } from "next/cache";
+import { chapterSchema, ChapterSchemaType } from "@/lib/zodSchema";
 
 const aj = arject
   .withRule(
@@ -160,6 +161,50 @@ export async function reorderChapter(
     return {
       status: "error",
       message: "Internal Error Chapter Reorded",
+    };
+  }
+}
+
+export async function createChapter(
+  values: ChapterSchemaType,
+): Promise<ApiResponse> {
+  try {
+    const result = chapterSchema.safeParse(values);
+    if (!result.success) {
+      return {
+        status: "error",
+        message: "Invalide Data",
+      };
+    }
+    await prisma.$transaction(async (tx) => {
+      const maxPos = await tx.chapter.findFirst({
+        where: {
+          courseId: result.data.courseId,
+        },
+        select: {
+          position: true,
+        },
+        orderBy: {
+          position: "desc",
+        },
+      });
+       await tx.chapter.create({
+         data : {
+           title : result.data.name,
+           courseId : result.data.courseId,
+           position : (maxPos?.position ?? 0) + 1
+         }
+      });
+    });
+    revalidatePath(`/admin/course/${result.data.courseId}/edit`);
+    return {
+       status : "success",
+       message : "Chapter Created Successfully"
+    }
+  } catch {
+    return {
+      status: "error",
+      message: "Internal Server Error to Create Chapter",
     };
   }
 }
