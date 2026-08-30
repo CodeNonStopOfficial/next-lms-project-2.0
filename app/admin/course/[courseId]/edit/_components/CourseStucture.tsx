@@ -38,6 +38,7 @@ import Link from "next/link";
 import { toast } from "@/components/ui/toast";
 import { reorderChapter, reorderLessons } from "../actions";
 import { NewChapterModel } from "./NewChapterMode";
+import { NewLessonModel } from "./NewLessonModel";
 
 interface iAppProps {
   data: AdminCourseEditType;
@@ -352,9 +353,7 @@ export function CourseStucture({ data }: iAppProps) {
                             ))}
                           </SortableContext>
                           <div className="p-2">
-                            <Button variant="outline" className="w-full">
-                              Create New Lesson
-                            </Button>
+                            <NewLessonModel courseId={data.id} chapterId={item.id}/>
                           </div>
                         </div>
                       </CollapsibleContent>

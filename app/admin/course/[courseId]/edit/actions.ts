@@ -5,7 +5,7 @@ import arject, { detectBot, fixedWindow } from "@/lib/arject";
 import prisma from "@/lib/db";
 import { CourseStatus } from "@/lib/generated/prisma/client";
 import { ApiResponse } from "@/lib/type";
-import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
+import { courseSchema, CourseSchemaType, lessonSchema } from "@/lib/zodSchema";
 import { request } from "@arcjet/next";
 import { revalidatePath } from "next/cache";
 import { chapterSchema, ChapterSchemaType } from "@/lib/zodSchema";
@@ -189,23 +189,71 @@ export async function createChapter(
           position: "desc",
         },
       });
-       await tx.chapter.create({
-         data : {
-           title : result.data.name,
-           courseId : result.data.courseId,
-           position : (maxPos?.position ?? 0) + 1
-         }
+      await tx.chapter.create({
+        data: {
+          title: result.data.name,
+          courseId: result.data.courseId,
+          position: (maxPos?.position ?? 0) + 1,
+        },
       });
     });
     revalidatePath(`/admin/course/${result.data.courseId}/edit`);
     return {
-       status : "success",
-       message : "Chapter Created Successfully"
-    }
+      status: "success",
+      message: "Chapter Created Successfully",
+    };
   } catch {
     return {
       status: "error",
       message: "Internal Server Error to Create Chapter",
+    };
+  }
+}
+
+export async function createLesson(
+  values: ChapterSchemaType,
+): Promise<ApiResponse> {
+  await requiredAdmin();
+  try {
+    const result = lessonSchema.safeParse(values);
+    if (!result.success) {
+      return {
+        status: "error",
+        message: "Invalide Data",
+      };
+    }
+    await prisma.$transaction(async (tx) => {
+      const maxPos = await tx.lesson.findFirst({
+        where: {
+          chapterId: result.data.chapterId,
+        },
+        select: {
+          position: true,
+        },
+        orderBy: {
+          position: "desc",
+        },
+      });
+      await tx.lesson.create({
+        data: {
+          title: result.data.name,
+          description: result.data.description,
+          videoKey: result.data.videoKey,
+          thumbnailKey : result.data.thumbnailKey,
+          chapterId : result.data.chapterId,
+          position: (maxPos?.position ?? 0) + 1,
+        },
+      });
+    });
+    revalidatePath(`/admin/course/${result.data.courseId}/edit`);
+    return {
+      status: "success",
+      message: "Lesson Created Successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Internal Server Error to Create Lesson",
     };
   }
 }
