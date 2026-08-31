@@ -210,6 +210,8 @@ export async function createChapter(
   }
 }
 
+
+
 export async function createLesson(
   values: ChapterSchemaType,
 ): Promise<ApiResponse> {
@@ -239,8 +241,8 @@ export async function createLesson(
           title: result.data.name,
           description: result.data.description,
           videoKey: result.data.videoKey,
-          thumbnailKey : result.data.thumbnailKey,
-          chapterId : result.data.chapterId,
+          thumbnailKey: result.data.thumbnailKey,
+          chapterId: result.data.chapterId,
           position: (maxPos?.position ?? 0) + 1,
         },
       });
@@ -254,6 +256,141 @@ export async function createLesson(
     return {
       status: "error",
       message: "Internal Server Error to Create Lesson",
+    };
+  }
+}
+
+export async function deleteLesson({
+  chapterId,
+  courseId,
+  lessonId,
+}: {
+  chapterId: string;
+  courseId: string;
+  lessonId: string;
+}): Promise<ApiResponse> {
+  await requiredAdmin();
+  try {
+    const chpaterWithLesson = await prisma.chapter.findUnique({
+      where: {
+        id: chapterId,
+      },
+      select: {
+        lessons: {
+          orderBy: {
+            position: "desc",
+          },
+          select: {
+            id: true,
+            position: true,
+          },
+        },
+      },
+    });
+    if (!chpaterWithLesson) {
+      return {
+        status: "error",
+        message: "Chapter Not Found",
+      };
+    }
+    const lesson = chpaterWithLesson.lessons;
+    const lessonToDelete = lesson.find((lesson)=>lesson.id === lessonId);
+     if (!lessonToDelete) {
+      return {
+        status: "error",
+        message: "Lesson not found in this chapter",
+      };
+    }
+    const remainingLesson = lesson.filter((lesson)=>lesson.id !== lessonId);
+    const updates = remainingLesson.map((lesson,index)=>{
+       return prisma.lesson.update({
+        where : {
+          id: lesson.id
+        },
+        data : {position:index+1}
+       })
+    });
+    await prisma.$transaction([...updates,prisma.lesson.delete({
+      where : {
+         id : lessonId,
+         chapterId : chapterId
+      }
+    })])
+    revalidatePath(`/admin/course/${courseId}/edit`);
+    return {
+      status: "success",
+      message: "Lesson Deleted Successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Failed to Delete Lesson",
+    };
+  }
+}
+
+export async function deleteChapter({
+  chapterId,
+  courseId,
+}: {
+  chapterId: string;
+  courseId: string;
+}): Promise<ApiResponse> {
+  await requiredAdmin();
+  try {
+    const courseWithChapter = await prisma.course.findUnique({
+      where: {
+        id: courseId,
+      },
+      select: {
+        chapter : {
+           orderBy : {
+             position : "asc"
+           },
+           select : {
+            id : true,
+            position :true
+           }
+        }
+      },
+    });
+    if (!courseWithChapter) {
+      return {
+        status: "error",
+        message: "Course Not Found",
+      };
+    }
+    const chapter = courseWithChapter.chapter;
+    const chapterToDelete = chapter.find((chapter)=>chapter.id === chapterId);
+     if (!chapterToDelete) {
+      return {
+        status: "error",
+        message: "Chapter not found in this course",
+      };
+    }
+    const remainingChapter = chapter.filter((chapter)=>chapter.id !== chapterId);
+    const updates = remainingChapter.map((chapter,index)=>{
+       return prisma.chapter.update({
+        where : {
+          id: chapter.id
+        },
+        data : {position:index+1}
+       })
+    });
+    await prisma.$transaction([...updates,prisma.chapter.delete({
+      where : {
+         id : chapterId,
+      }
+    })])
+    revalidatePath(`/admin/course/${courseId}/edit`);
+    return {
+      status: "success",
+      message: "Chapter Deleted Successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Failed to Delete Lesson",
     };
   }
 }

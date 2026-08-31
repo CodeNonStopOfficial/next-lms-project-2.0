@@ -39,6 +39,8 @@ import { toast } from "@/components/ui/toast";
 import { reorderChapter, reorderLessons } from "../actions";
 import { NewChapterModel } from "./NewChapterMode";
 import { NewLessonModel } from "./NewLessonModel";
+import { DeleteLesson } from "./DeleteLesson";
+import { DeleteChapter } from "./DeleteChapter";
 
 interface iAppProps {
   data: AdminCourseEditType;
@@ -72,20 +74,22 @@ export function CourseStucture({ data }: iAppProps) {
 
   useEffect(() => {
     setItems((prevItem) => {
-      const updatedItems = data.chapter.map((chapter) => ({
-        id: chapter.id,
-        title: chapter.title,
-        order: chapter.position,
-        isOpen: prevItem.find((item)=>item.id === chapter.id)?.isOpen ?? true,
-        lessons: chapter.lessons.map((lesson) => ({
-          id: lesson.id,
-          order: lesson.position,
-          title: lesson.title,
-        })),
-      }))||[];
+      const updatedItems =
+        data.chapter.map((chapter) => ({
+          id: chapter.id,
+          title: chapter.title,
+          order: chapter.position,
+          isOpen:
+            prevItem.find((item) => item.id === chapter.id)?.isOpen ?? true,
+          lessons: chapter.lessons.map((lesson) => ({
+            id: lesson.id,
+            order: lesson.position,
+            title: lesson.title,
+          })),
+        })) || [];
       return updatedItems;
     });
-  },[data]);
+  }, [data]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -261,7 +265,7 @@ export function CourseStucture({ data }: iAppProps) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between border-b border-border">
           <CardTitle>Chapter-1</CardTitle>
-          <NewChapterModel courseId={data.id}/>
+          <NewChapterModel courseId={data.id} />
         </CardHeader>
         <CardContent className=" space-y-6">
           <SortableContext strategy={verticalListSortingStrategy} items={items}>
@@ -311,9 +315,7 @@ export function CourseStucture({ data }: iAppProps) {
                             {item.title}
                           </p>
                         </div>
-                        <Button size="icon" variant="outline">
-                          <Trash2 className="size-4" />
-                        </Button>
+                        <DeleteChapter courseId={data.id} chapterId={item.id}/>
                       </div>
                       <CollapsibleContent>
                         <div className="p-2 space-y-2">
@@ -344,16 +346,17 @@ export function CourseStucture({ data }: iAppProps) {
                                         {lesson.title}
                                       </Link>
                                     </div>
-                                    <Button variant="outline" size="icon">
-                                      <Trash2 className="size-4" />
-                                    </Button>
+                                    <DeleteLesson courseId={data.id} chapterId={item.id} lessonId={lesson.id}/>
                                   </div>
                                 )}
                               </SortableItem>
                             ))}
                           </SortableContext>
                           <div className="p-2">
-                            <NewLessonModel courseId={data.id} chapterId={item.id}/>
+                            <NewLessonModel
+                              courseId={data.id}
+                              chapterId={item.id}
+                            />
                           </div>
                         </div>
                       </CollapsibleContent>
