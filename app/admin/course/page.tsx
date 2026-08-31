@@ -4,9 +4,8 @@ import Link from "next/link";
 import { AdminCourseCard } from "./_components/AdminCourseCard";
 import { Suspense } from "react";
 import { CourseCardSkeleton } from "@/components/common/CourseCardSkeleton";
-
-
-
+import {EmptyState} from "@/components/general/EmaptyState"
+import { PlusCircle } from "lucide-react";
 
 export default async function CoursePage() {
   return (
@@ -19,13 +18,14 @@ export default async function CoursePage() {
           href="/admin/course/create"
           className={buttonVariants({
             variant: "outline",
-            className: "px-6 py-4.5",
+            className: "px-4 py-4.5 flex gap-2",
           })}
         >
+          <PlusCircle className="h-4 w-4" />
           Create Course
         </Link>
       </div>
-      <Suspense fallback={<CourseCardSkeleton/>}>
+      <Suspense fallback={<CourseCardSkeleton />}>
         <CourseDataContent />
       </Suspense>
     </section>
@@ -35,10 +35,16 @@ export default async function CoursePage() {
 async function CourseDataContent() {
   const data = await adminGetCourses();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg-grid-cols-4 gap-4">
-      {data.map((course) => (
-        <AdminCourseCard key={course.id} data={course} />
-      ))}
+    <div>
+      {data.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 lg-grid-cols-4 gap-4">
+          {data.map((course) => (
+            <AdminCourseCard key={course.id} data={course} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

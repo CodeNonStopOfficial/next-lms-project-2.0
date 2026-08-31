@@ -12,8 +12,8 @@ import { useTransition } from "react";
 import { tryCatch } from "@/hooks/try-catch";
 import { deleteCourse } from "./actions";
 import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/components/ui/toast";
 
 export default function DeleteCoursePage() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -23,14 +23,23 @@ export default function DeleteCoursePage() {
     startTransition(async () => {
       const { data: result, error } = await tryCatch(deleteCourse(courseId));
       if (error) {
-        toast.error(error.message);
+        toast.add({
+          type: "error",
+          title: error.message,
+        });
         return;
       }
       if (result.status === "success") {
-        toast.success(result.message);
+        toast.add({
+          type: "success",
+          title: result.message,
+        });
         router.push("/admin/course");
       } else if (result.status === "error") {
-        toast.error(result.message);
+        toast.add({
+          type: "error",
+          title: result.message,
+        });
       }
     });
   }
@@ -57,18 +66,16 @@ export default function DeleteCoursePage() {
           </Link>
 
           <Button variant="destructive" onClick={onSubmit} disabled={isPanding}>
-             {
-                 isPanding ? (
-                   <>
-                    <Loader2 className="size-4 animate-spin"/>
-                    <span>Loading...</span>
-                   </>
-                 ):(
-                   <>
-                    <span>Delete Course</span>
-                   </>
-                 )
-             }
+            {isPanding ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>Loading...</span>
+              </>
+            ) : (
+              <>
+                <span>Delete Course</span>
+              </>
+            )}
           </Button>
         </CardContent>
       </Card>
