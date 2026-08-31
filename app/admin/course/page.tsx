@@ -3,7 +3,10 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { AdminCourseCard } from "./_components/AdminCourseCard";
 import { Suspense } from "react";
-import { DashboardSkeleton } from "@/components/common/DashboardSkeleton";
+import { CourseCardSkeleton } from "@/components/common/CourseCardSkeleton";
+
+
+
 
 export default async function CoursePage() {
   return (
@@ -22,7 +25,7 @@ export default async function CoursePage() {
           Create Course
         </Link>
       </div>
-      <Suspense fallback={<DashboardSkeleton />}>
+      <Suspense fallback={<CourseCardSkeleton/>}>
         <CourseDataContent />
       </Suspense>
     </section>
