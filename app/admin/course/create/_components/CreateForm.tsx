@@ -216,7 +216,7 @@ export function CreateForm() {
                       <FieldLabel htmlFor="course-thumbnail">
                         Course Thumbnail
                       </FieldLabel>
-                      <Uploader onChange={field.onChange} value={field.value} />
+                      <Uploader onChange={field.onChange} value={field.value} fileTypeAccepted="image" />
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}

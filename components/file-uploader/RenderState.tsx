@@ -22,7 +22,7 @@ export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
         </span>
       </p>
       <Button type="button" className="px-8 py-4.5 mx-auto">
-        Upload Image
+        Upload File
       </Button>
     </div>
   );
@@ -47,19 +47,27 @@ export function RenderComplelted({
   previewUrl,
   isDeleting,
   handleRemoveFile,
+  fileType,
 }: {
   previewUrl: string;
   isDeleting: boolean;
   handleRemoveFile: () => void;
+  fileType: "image" | "video";
 }) {
   return (
-    <div className="items-center justify-center mx-auto flex flex-col w-full space-y-2">
-      <Image
-        src={previewUrl}
-        alt="Uploading File"
-        fill
-        className="object-contain p-2 " 
-      />
+    <div className="items-center justify-center mx-auto flex flex-col space-y-2  relative w-full h-full">
+      {fileType === "video" ? (
+        <div className="w-112.5 h-100 py-4">
+         <video src={previewUrl} controls className="rounded-md items-center justify-center w-100" />
+        </div>
+      ) : (
+        <Image
+          src={previewUrl}
+          alt="Uploading File"
+          fill
+          className="object-contain p-2 "
+        />
+      )}
       <Button
         onClick={handleRemoveFile}
         type="button"

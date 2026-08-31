@@ -23,6 +23,9 @@ export function NewChapterModel({ courseId }: { courseId: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   function handleOpenChange(open: boolean) {
+    if(!open){
+       form.reset();
+    }
     setIsOpen(open);
   }
   const form = useForm<ChapterSchemaType>({

@@ -23,6 +23,9 @@ export function NewLessonModel({ courseId, chapterId }: { courseId: string , cha
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   function handleOpenChange(open: boolean) {
+    if(!open){
+       form.reset();
+    }
     setIsOpen(open);
   }
   const form = useForm<LessonSchemaType>({
