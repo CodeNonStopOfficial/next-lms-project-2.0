@@ -3,7 +3,7 @@ import { Navbar } from "./_components/Navbar";
 
 export default function SharedLayout({children}:{children:React.ReactNode}){
     return (
-         <div className="max-w-full bg-gray-100 dark:bg-black">
+         <div className="max-w-full">
             <Navbar/>
              <main className="container mx-auto px-4 md:px-6 lg:px-8">
                 {children}
