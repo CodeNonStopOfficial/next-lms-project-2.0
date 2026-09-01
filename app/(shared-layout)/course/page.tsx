@@ -6,6 +6,10 @@ import { PublicGetCourseCard } from "../_components/PublicGetCourseCard";
 import { AdminCourseCardSkeleton } from "@/components/common/AdminCourseCardSkeleton";
 import { Suspense } from "react";
 
+// export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
+
 export default async function PublicCoursePage() {
   return (
     <main className="bg-background text-foreground">

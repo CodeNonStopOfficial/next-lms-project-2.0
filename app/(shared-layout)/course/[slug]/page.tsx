@@ -20,6 +20,8 @@ import {
   Play,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 type Params = Promise<{ slug: string }>;
 export default async function PublicSingleCourse({
   params,
