@@ -51,10 +51,14 @@ import { toast } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 import { CreateCourseAction } from "../actions";
 import { Uploader } from "@/components/file-uploader/Uploader";
+import { useConfetti } from "@/hooks/use-confetti";
+
+
 
 export function CreateForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const {triggerConfetti} = useConfetti();
   const form = useForm<CourseSchemaType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -85,6 +89,7 @@ export function CreateForm() {
           type: "success",
           title: data?.message,
         });
+        triggerConfetti();
         form.reset();
         router.push("/admin/course");
       } else if (data.status === "error") {

@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import { requiredAdmin } from "./require-admin";
 
 export async function adminGetCourses(){
+     await new Promise((resolve)=>setTimeout(resolve,1000))
      await requiredAdmin();
      const data = await prisma.course.findMany({
         orderBy : {

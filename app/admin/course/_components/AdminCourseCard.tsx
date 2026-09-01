@@ -34,13 +34,13 @@ interface CourseCardProps {
 export async function AdminCourseCard({ data }: CourseCardProps) {
   const imageUrl = await getImageUrl(data.fileKey);
   return (
-    <Card className="group relative">
+    <Card className="group relative flex flex-col h-full">
       <Image
         src={imageUrl}
         alt="thumbnail"
         width={600}
         height={400}
-        className=" object-cover border dark:bg-primary/10 bg-primary/5 rounded-2xl"
+        className=" object-cover h-44 border dark:bg-primary/10 bg-primary/5 rounded-2xl"
       />
       <div className=" absolute top-2 right-2">
         <DropdownMenu>
@@ -71,10 +71,12 @@ export async function AdminCourseCard({ data }: CourseCardProps) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className={buttonVariants(({
-               variant : "destructive",
-               className : "w-full text-start"
-            }))}>
+            <DropdownMenuItem
+              className={buttonVariants({
+                variant: "destructive",
+                className: "w-full text-start",
+              })}
+            >
               <Link
                 href={`/admin/course/${data.id}/delete`}
                 className="flex text-start"
@@ -111,18 +113,8 @@ export async function AdminCourseCard({ data }: CourseCardProps) {
           {data.smallDescription}
         </p>
       </CardContent>
-      <CardDescription className="flex items-center justify-between gap-2 px-2">
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/admin/course/${data.id}/edit`}
-            className={buttonVariants({
-              variant: "outline",
-            })}
-          >
-            Edit Course
-          </Link>
-          <Button variant="secondary">{data.status}</Button>
-        </div>
+      <CardDescription className="flex items-center justify-between gap-2 px-2 h-fit">
+        <Button variant="secondary">{data.status}</Button>
         <Button variant="secondary">₹ {data.price}</Button>
       </CardDescription>
     </Card>
