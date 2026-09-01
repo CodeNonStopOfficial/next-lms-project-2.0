@@ -39,7 +39,7 @@ export function PublicGetCourseCard({ data, imageUrl }: iAppProps) {
       <CardHeader className="px-2 w-full space-y-1">
         <CardTitle className="font-normal text-base line-clamp-2 text-[16px]">
           <Link
-            href={`/course/${data.slug.toLocaleLowerCase()}`}
+            href={`/course/${data.slug}`}
             className="hover:text-primary/60 hover:underline"
           >
             {data.title}
@@ -60,7 +60,7 @@ export function PublicGetCourseCard({ data, imageUrl }: iAppProps) {
       </CardContent>
       <CardDescription className="flex items-center justify-between gap-2 px-2 h-fit">
         <Link
-          href={`/course/${data.slug.toLocaleLowerCase()}`}
+          href={`/course/${data.slug}`}
           className={buttonVariants({
             variant: "secondary",
             className: "hover:underline",
