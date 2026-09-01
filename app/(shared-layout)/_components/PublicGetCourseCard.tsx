@@ -39,7 +39,7 @@ export function PublicGetCourseCard({ data, imageUrl }: iAppProps) {
       <CardHeader className="px-2 w-full space-y-1">
         <CardTitle className="font-normal text-base line-clamp-2 text-[16px]">
           <Link
-            href={`/course/${data.slug}`}
+            href={`/course/${data.slug.toLocaleLowerCase()}`}
             className="hover:text-primary/60 hover:underline"
           >
             {data.title}
