@@ -172,8 +172,13 @@ export function CreateForm() {
                     className="w-fit"
                     onClick={() => {
                       const titleValue = form.getValues("title");
-                      const slug = slugify(titleValue);
-                      form.setValue("slug", slug, { shouldValidate: true });
+                       if (!titleValue?.trim()) return;
+                      const slug = slugify(titleValue,{
+                         lower : true,
+                         trim : true,
+                         strict : true
+                      });
+                      form.setValue("slug", slug, { shouldValidate: true , shouldDirty:true});
                     }}
                   >
                     Generate Slug <SparkleIcon className="ml-1" size={16} />
