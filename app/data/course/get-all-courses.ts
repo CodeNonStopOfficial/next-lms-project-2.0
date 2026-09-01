@@ -1,10 +1,11 @@
 import prisma from "@/lib/db";
+import { notFound } from "next/navigation";
 
 export async function getAllCourses() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const data = await prisma.course.findMany({
     where: {
-      status: "Published",
+      status: "Published"
     },
     orderBy: {
       createdAt: "desc",
@@ -22,6 +23,9 @@ export async function getAllCourses() {
       id: true,
     },
   });
+  if (!data) {
+    return notFound();
+  }
   return data;
 }
 
