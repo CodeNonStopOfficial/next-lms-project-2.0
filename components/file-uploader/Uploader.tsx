@@ -341,7 +341,7 @@ export function Uploader({ onChange, value, fileTypeAccepted }: iAppProps) {
         uploadFile(file);
       }
     },
-    [fileState.objectUrl],
+    [fileState.objectUrl, fileTypeAccepted,uploadFile],
   );
 
   function renderContent() {

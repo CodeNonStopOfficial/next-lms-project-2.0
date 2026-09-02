@@ -12,11 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { tryCatch } from "@/hooks/try-catch";
-import { createChapter, createLesson } from "../actions";
+import {createLesson } from "../actions";
 import { toast } from "@/components/ui/toast";
 
 export function NewLessonModel({ courseId, chapterId }: { courseId: string , chapterId: string }) {

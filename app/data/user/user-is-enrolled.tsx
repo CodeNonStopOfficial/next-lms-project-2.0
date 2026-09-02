@@ -1,7 +1,5 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { ApiResponse } from "@/lib/type";
-import { userAc } from "better-auth/plugins/admin/access";
 import { headers } from "next/headers";
 
 export async function checkIfCourseBought(courseId : string):Promise<boolean>{

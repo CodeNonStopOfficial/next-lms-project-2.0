@@ -62,7 +62,7 @@ export async function upadateLesson(
       status: "success",
       message: "Lesson Updated Successfully",
     };
-  } catch (error) {
+  } catch {
     return {
       status: "error",
       message: "Update Lesson Failed Internal Error",

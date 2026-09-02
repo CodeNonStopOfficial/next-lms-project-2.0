@@ -8,15 +8,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Edit, Eye, MoreVertical, TimerIcon, Trash2 } from "lucide-react";
+import {TimerIcon} from "lucide-react";
 import { PublicGetAllCourseType } from "@/app/data/course/get-all-courses";
 
 interface iAppProps {

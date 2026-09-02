@@ -19,7 +19,6 @@ import {
   ClockIcon,
   Play,
 } from "lucide-react";
-import { enrollInCourseAction } from "./actions";
 import { checkIfCourseBought } from "@/app/data/user/user-is-enrolled";
 import Link from "next/link";
 import { EnrollementButton } from "./_components/EnrollementButton";
@@ -129,7 +128,7 @@ export default async function PublicSingleCourse({
                   <CollapsibleContent>
                     <div className="border bg-muted/20">
                       <div className="p-4 pt-2 space-y-3">
-                        {chapter.lessons.map((lesson, lessonIndex) => (
+                        {chapter.lessons.map((lesson) => (
                           <div
                             key={lesson.id}
                             className="flex items-center gap-4 justify-center border px-4 py-2 rounded bg-white dark:bg-[#262626]"
