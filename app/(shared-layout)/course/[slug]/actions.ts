@@ -131,7 +131,7 @@ export async function enrollInCourseAction(
         customer : stripeCustomerId,
         line_items: [
           {
-            price:"price_1UBJeGH0duXAAuN0zElDFZti"
+            price:"price_1UBJeGH0duXAAuN0zElDFZti",
             quantity: 1,
           },
         ],
