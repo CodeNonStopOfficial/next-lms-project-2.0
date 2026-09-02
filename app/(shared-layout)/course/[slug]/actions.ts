@@ -4,7 +4,6 @@ import { requireUser } from "@/app/data/user/required-user";
 import arject, { fixedWindow } from "@/lib/arject";
 import prisma from "@/lib/db";
 import { env } from "@/lib/env";
-import { rayzorpay } from "@/lib/rayzorpay";
 import { stripe } from "@/lib/stripe";
 import { ApiResponse } from "@/lib/type";
 import { request } from "@arcjet/next";
@@ -127,7 +126,7 @@ export async function enrollInCourseAction(
         });
       }
 
-      // create checkout session
+      // create checkout session second step 
       const checkoutSession = await stripe.checkout.sessions.create({
         customer : stripeCustomerId,
         line_items: [
@@ -153,7 +152,6 @@ export async function enrollInCourseAction(
 
     checkoutUrl = result.checkoutUrl as string;
   } catch (error) {
-    console.log(error);
     if (error instanceof Stripe.errors.StripeError) {
       return {
         status: "error",
