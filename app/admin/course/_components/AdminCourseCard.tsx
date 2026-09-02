@@ -11,7 +11,6 @@ import Image from "next/image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Delete,
   Edit,
   Eye,
   MoreVertical,
