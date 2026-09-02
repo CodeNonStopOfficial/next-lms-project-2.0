@@ -19,6 +19,10 @@ import {
   ClockIcon,
   Play,
 } from "lucide-react";
+import { enrollInCourseAction } from "./actions";
+import { checkIfCourseBought } from "@/app/data/user/user-is-enrolled";
+import Link from "next/link";
+import { EnrollementButton } from "./_components/EnrollementButton";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +35,8 @@ export default async function PublicSingleCourse({
   const { slug } = await params;
   const course = await getSingleCourse(slug);
   const imageUrl = await getImageUrl(course.fileKey);
+  const isEnrolled = await checkIfCourseBought(course.id);
+
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5 mb-20">
       <div className="order-1 lg:col-span-2">
@@ -218,31 +224,33 @@ export default async function PublicSingleCourse({
                 </div>
               </div>
               <div className="mb-6 space-y-2">
-                 <h4>This Course Includes:</h4>
-                 <ul className="flex items-start flex-col gap-2">
-                    <li className="flex items-center gap-2 text-sm">
-                        <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
-                            <CheckIcon className="size-3"/>
-                        </div>
-                        <span>Full lifetime Access</span>
-                    </li>
-                    <li className="flex items-center gap-2 text-sm">
-                        <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
-                            <CheckIcon className="size-3"/>
-                        </div>
-                        <span>Access on Mobile and Destop</span>
-                    </li>
-                    <li className="flex items-center gap-2 text-sm">
-                        <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
-                            <CheckIcon className="size-3"/>
-                        </div>
-                        <span>Certificate of Completion</span>
-                    </li>
-                 </ul>
+                <h4>This Course Includes:</h4>
+                <ul className="flex items-start flex-col gap-2">
+                  <li className="flex items-center gap-2 text-sm">
+                    <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
+                      <CheckIcon className="size-3" />
+                    </div>
+                    <span>Full lifetime Access</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm">
+                    <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
+                      <CheckIcon className="size-3" />
+                    </div>
+                    <span>Access on Mobile and Destop</span>
+                  </li>
+                  <li className="flex items-center gap-2 text-sm">
+                    <div className=" rounded-full bg-green-500/10 p-1 text-green-500">
+                      <CheckIcon className="size-3" />
+                    </div>
+                    <span>Certificate of Completion</span>
+                  </li>
+                </ul>
               </div>
-              <Button className="w-full py-4.5 bg-[#FF7700] hover:bg-[#22C55E]">
-                Enroll Now!
-              </Button>
+              {isEnrolled ? (
+                <Link href="/dashboard">Watch Course</Link>
+              ) : (
+                <EnrollementButton courseId={course.id} />
+              )}
             </CardContent>
           </Card>
         </div>
