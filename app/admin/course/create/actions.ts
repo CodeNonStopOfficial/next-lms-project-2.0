@@ -1,6 +1,6 @@
 "use server";
 import { requiredAdmin } from "@/app/data/admin/require-admin";
-import arject, { detectBot, fixedWindow } from "@/lib/arject";
+import arject, {fixedWindow } from "@/lib/arject";
 import prisma from "@/lib/db";
 import { CourseStatus } from "@/lib/generated/prisma/client";
 import { ApiResponse } from "@/lib/type";
@@ -8,12 +8,6 @@ import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
 import { request } from "@arcjet/next";
 
 const aj = arject
-  .withRule(
-    detectBot({
-      mode: "LIVE",
-      allow: [],
-    }),
-  )
   .withRule(
     fixedWindow({
       mode: "LIVE",
