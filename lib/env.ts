@@ -18,8 +18,6 @@ export const env = createEnv({
     AWS_ENDPOINT_URL_IAM: z.string().min(1),
     AWS_REGION: z.string().min(1),
     STRIPE_SECRET_KEY: z.string().min(1),
-    RAYZORPAY_KEY_ID: z.string(),
-    RAYZORPAY_SECRET_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES: z.string().min(1),
