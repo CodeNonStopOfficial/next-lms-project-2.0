@@ -24,6 +24,7 @@ export function PublicGetCourseCard({ data, imageUrl }: iAppProps) {
         alt="thumbnail"
         width={600}
         height={400}
+        priority
         className=" object-cover h-44 border dark:bg-primary/10 bg-primary/5 rounded-2xl"
       />
       <Badge variant="secondary" className=" absolute top-2 left-1">

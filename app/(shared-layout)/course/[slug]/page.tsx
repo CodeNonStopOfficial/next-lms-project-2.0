@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getSingleCourse } from "@/app/data/course/get-course";
 import { getImageUrl } from "@/lib/generate-url";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { RenderDescription } from "@/components/rice-text-editor/RenderDescription";
 import {
@@ -246,7 +246,10 @@ export default async function PublicSingleCourse({
                 </ul>
               </div>
               {isEnrolled ? (
-                <Link href="/dashboard">Watch Course</Link>
+                <Link className={buttonVariants({
+                   variant : "outline",
+                   className : "w-full py-4.5 bg-[#FF7700]"
+                })} href="/dashboard">Watch Course</Link>
               ) : (
                 <EnrollementButton courseId={course.id} />
               )}
