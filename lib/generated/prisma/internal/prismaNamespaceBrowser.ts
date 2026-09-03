@@ -183,7 +183,8 @@ export const LessonScalarFieldEnum = {
   position: 'position',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  chapterId: 'chapterId'
+  chapterId: 'chapterId',
+  courseId: 'courseId'
 } as const
 
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]

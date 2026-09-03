@@ -3,6 +3,15 @@ import prisma from "@/lib/db";
 export async function adminGetInfoDashboard() {
   const session = await requiredAdmin();
 
+  const course = await prisma.course.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
   const [totalSignups, totalCustomers, totalCourses, totalLessons] =
     await Promise.all([
       //total signup
@@ -20,7 +29,11 @@ export async function adminGetInfoDashboard() {
           userId: session.user?.id,
         },
       }),
-      prisma.lesson.count(),
+      prisma.lesson.count({
+        where: {
+          courseId: course.id,
+        },
+      }),
     ]);
   return {
     totalSignups,
