@@ -155,6 +155,7 @@ export const CourseScalarFieldEnum = {
   slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  stripePriceId: 'stripePriceId',
   userId: 'userId'
 } as const
 

@@ -8,8 +8,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -121,6 +119,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --color-enrollements: #3b82f6; /* Blue */
+  --color-sales: #22c55e;
 }
 
 @layer base {
@@ -136,7 +136,7 @@
 }
 
 ::-webkit-scrollbar {
-   display: none;
+  display: none;
 }
 
 html {
