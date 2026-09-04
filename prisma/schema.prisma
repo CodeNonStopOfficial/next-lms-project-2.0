@@ -19,7 +19,6 @@ model User {
   accounts      Account[]
   courses       Course[]
   enrollment    Enrollment[]
-  lesson        Lesson[]
 
   stripeCustomerId String? @unique
 
@@ -140,8 +139,6 @@ model Lesson {
   updatedAt    DateTime @updatedAt
   chapter      Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   chapterId    String
-  user         User?    @relation(fields: [userId], references: [id])
-  userId       String?
 }
 
 model Enrollment {
