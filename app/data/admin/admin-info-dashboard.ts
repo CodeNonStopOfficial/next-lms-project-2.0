@@ -3,7 +3,7 @@ import prisma from "@/lib/db";
 export async function adminGetInfoDashboard() {
   const session = await requiredAdmin();
 
-  const course = await prisma.course.findMany({
+  const course = await prisma.course.findFirst({
     where: {
       userId: session.user.id,
     },
@@ -31,7 +31,7 @@ export async function adminGetInfoDashboard() {
       }),
       prisma.lesson.count({
         where: {
-          courseId: course.id,
+          courseId: course?.id
         },
       }),
     ]);
