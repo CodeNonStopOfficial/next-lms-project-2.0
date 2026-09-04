@@ -3,15 +3,6 @@ import prisma from "@/lib/db";
 export async function adminGetInfoDashboard() {
   const session = await requiredAdmin();
 
-  const course = await prisma.course.findFirst({
-    where: {
-      userId: session.user.id,
-    },
-    select: {
-      id: true,
-    },
-  });
-
   const [totalSignups, totalCustomers, totalCourses, totalLessons] =
     await Promise.all([
       //total signup
@@ -31,7 +22,7 @@ export async function adminGetInfoDashboard() {
       }),
       prisma.lesson.count({
         where: {
-          courseId: course?.id
+          userId: session.user?.id,
         },
       }),
     ]);
