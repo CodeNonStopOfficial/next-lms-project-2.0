@@ -1,3 +1,4 @@
+import "server-only"
 import { requiredAdmin } from "@/app/data/admin/require-admin";
 import prisma from "@/lib/db";
 export async function getNewCourseResently() {
