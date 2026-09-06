@@ -3,7 +3,7 @@ import { getAllCourses } from "@/app/data/course/get-all-courses";
 import { EmptyState } from "@/components/general/EmaptyState";
 import { PublicGetCourseCard } from "@/app/(shared-layout)/_components/PublicGetCourseCard";
 import { getImageUrl } from "@/lib/generate-url";
-import Link from "next/link";
+import { CourseCardPublic } from "./[slug]/_components/CourseCardPublic";
 
 export default async function PublicDashboardPage() {
   const [courseData, enrolledCourse] = await Promise.all([
@@ -64,17 +64,15 @@ export default async function PublicDashboardPage() {
             showButton={true}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {enrolledCourses.map((course) => (
-              <Link href={`/dashboard/${course.slug}`} key={course.id}>
-                <PublicGetCourseCard
+                <CourseCardPublic
                   key={course.id}
                   data={course}
                   imageUrl={
                     courses.find((c) => c.id === course.id)?.imageUrl ?? ""
                   }
                 />
-              </Link>
             ))}
           </div>
         )}
