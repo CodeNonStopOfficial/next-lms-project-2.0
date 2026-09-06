@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Ban, PlusCircle } from "lucide-react";
 
-import {buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 interface EmptyStateProps {
   title?: string;
@@ -21,24 +21,34 @@ export function EmptyState({
           <Ban className="h-8 w-8 text-primary" />
         </div>
 
-        <h2 className="text-xl font-semibold tracking-tight">
-          {title}
-        </h2>
+        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
 
-        <p className="mt-2 text-sm text-muted-foreground">
-          {description}
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{description}</p>
 
         <div className="mt-3">
-            {showButton && (
-            <Link href="/admin/course/create" className={buttonVariants({
-                 variant : "outline",
-                 className : "flex items-center gap-2 px-4 py-4.5"
-            })}>
+          {showButton === false ? (
+            <Link
+              href="/admin/course/create"
+              className={buttonVariants({
+                variant: "outline",
+                className: "flex items-center gap-2 px-4 py-4.5",
+              })}
+            >
               <PlusCircle className="h-4 w-4" />
-               Create Course
+              Create Course
             </Link>
-        )}
+          ) : (
+            <Link
+              href="/course"
+              className={buttonVariants({
+                variant: "outline",
+                className: "flex items-center gap-2 px-4 py-4.5",
+              })}
+            >
+              <PlusCircle className="h-4 w-4" />
+               Buy Course
+            </Link>
+          )}
         </div>
       </div>
     </div>
