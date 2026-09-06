@@ -1,8 +1,6 @@
 import { adminGetInfoDashboard } from "@/app/data/admin/admin-info-dashboard";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,

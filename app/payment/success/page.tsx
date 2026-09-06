@@ -10,7 +10,7 @@ export default function PaymentSuccess() {
   const { triggerConfetti } = useConfetti();
   useEffect(() => {
     triggerConfetti();
-  }, []);
+  }, [triggerConfetti]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4 py-8">
       <Card className="w-full max-w-md rounded-2xl p-8 shadow-lg">
