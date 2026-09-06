@@ -3,6 +3,7 @@ import { getAllCourses } from "@/app/data/course/get-all-courses";
 import { EmptyState } from "@/components/general/EmaptyState";
 import { PublicGetCourseCard } from "@/app/(shared-layout)/_components/PublicGetCourseCard";
 import { getImageUrl } from "@/lib/generate-url";
+import Link from "next/link";
 
 export default async function PublicDashboardPage() {
   const [courseData, enrolledCourse] = await Promise.all([
@@ -24,7 +25,7 @@ export default async function PublicDashboardPage() {
   );
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 px-2 md:px-4 py-4 lg:px-6">
       <section className="rounded-3xl bg-linear-to-r from-indigo-600 via-violet-600 to-purple-600 p-8 text-white shadow-lg">
         <h1 className="text-3xl font-bold md:text-5xl">Welcome Back 👋</h1>
 
@@ -63,15 +64,17 @@ export default async function PublicDashboardPage() {
             showButton={true}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {enrolledCourses.map((course) => (
-              <PublicGetCourseCard
-                key={course.id}
-                data={course}
-                imageUrl={
-                  courses.find((c) => c.id === course.id)?.imageUrl ?? ""
-                }
-              />
+              <Link href={`/dashboard/${course.slug}`} key={course.id}>
+                <PublicGetCourseCard
+                  key={course.id}
+                  data={course}
+                  imageUrl={
+                    courses.find((c) => c.id === course.id)?.imageUrl ?? ""
+                  }
+                />
+              </Link>
             ))}
           </div>
         )}
