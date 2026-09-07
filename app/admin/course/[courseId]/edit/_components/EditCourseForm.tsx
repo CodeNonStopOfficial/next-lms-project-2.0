@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { courseCategories } from "@/utils/course-category";
-import dynamic from "next/dynamic";
 const RiceTextEditor = dynamic(
   () => import("@/components/rice-text-editor/Editor"),
   {

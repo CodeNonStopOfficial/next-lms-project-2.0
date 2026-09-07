@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EditCourseFrom } from "./_components/EditCourseForm";
 import { CourseStucture } from "./_components/CourseStucture";
 
+
+
 export default async function CourseEditPage({
   params,
 }: {
