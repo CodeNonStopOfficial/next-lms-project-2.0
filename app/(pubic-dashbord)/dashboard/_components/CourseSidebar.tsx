@@ -1,5 +1,6 @@
+"use client";
 import { CourseSidebarDataType } from "@/app/data/course/get-course-sidebar";
-import { ChartSpline, ChevronDown} from "lucide-react";
+import { ChartSpline, ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import LessionContent from "./LessionContent";
 import {
@@ -8,11 +9,14 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 
 interface iAppProps {
   course: CourseSidebarDataType["course"];
 }
 export default function CourseSidebarDashboard({ course }: iAppProps) {
+  const pathname = usePathname();
+  const currenLessonId = pathname.split("/").pop();
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-[#0B0909] px-2 py-4">
       <div className="border-b border-border">
@@ -41,8 +45,12 @@ export default function CourseSidebarDashboard({ course }: iAppProps) {
         </div>
       </div>
       <div className="py-4 pr-4 space-y-3">
-        {course.chapter.map((chapter,index) => (
-          <Collapsible key={chapter.id} defaultOpen={index === 0} className="hover:cursor-pointer">
+        {course.chapter.map((chapter, index) => (
+          <Collapsible
+            key={chapter.id}
+            defaultOpen={index === 0}
+            className="hover:cursor-pointer"
+          >
             <CollapsibleTrigger
               render={
                 <Button
@@ -65,7 +73,13 @@ export default function CourseSidebarDashboard({ course }: iAppProps) {
             />
             <CollapsibleContent className="mt-3 pl-2 border-l-2 space-y-3">
               {chapter.lessons.map((lesson) => (
-                 <LessionContent key={lesson.id} lesson={lesson} slug={course.slug}/>
+                <LessionContent
+                  key={lesson.id}
+                  lesson={lesson}
+                  slug={course.slug}
+                  isActive={currenLessonId === lesson.id}
+                  completed = {lesson.lessonProgress.find((progress)=>progress.lessonId === lesson.id)?.completed || false}
+                />
               ))}
             </CollapsibleContent>
           </Collapsible>

@@ -3,7 +3,6 @@ import { requireUser } from "../user/required-user";
 import prisma from "@/lib/db";
 import { notFound } from "next/navigation";
 
-
 export async function getLessonContentById(lessonId: string) {
   const user = await requireUser();
   const lesson = await prisma.lesson.findUnique({
@@ -17,9 +16,23 @@ export async function getLessonContentById(lessonId: string) {
       thumbnailKey: true,
       videoKey: true,
       position: true,
+      lessonProgress: {
+        where: {
+          userId: user.id,
+        },
+        select: {
+          completed: true,
+          lessonId: true,
+        },
+      },
       chapter: {
         select: {
           courseId: true,
+          course: {
+            select: {
+              slug: true,
+            },
+          },
         },
       },
     },
@@ -35,15 +48,17 @@ export async function getLessonContentById(lessonId: string) {
         courseId: lesson.chapter.courseId,
       },
     },
-    select : {
-         status : true,
-    }
+    select: {
+      status: true,
+    },
   });
 
-  if(!enrollement ||  enrollement?.status !== "Active"){
-     return notFound();
+  if (!enrollement || enrollement?.status !== "Active") {
+    return notFound();
   }
 
   return lesson;
 }
-export type CourseLessonItemType = Awaited<ReturnType<typeof getLessonContentById>>
+export type CourseLessonItemType = Awaited<
+  ReturnType<typeof getLessonContentById>
+>;

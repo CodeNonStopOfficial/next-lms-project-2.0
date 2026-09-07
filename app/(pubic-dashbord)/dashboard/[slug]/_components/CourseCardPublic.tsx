@@ -60,7 +60,7 @@ export function CourseCardPublic({ data, imageUrl }: iAppProps) {
             className: "hover:underline",
           })}
         >
-          Continue
+          Continue Learing
         </Link>
         <Button variant="secondary">₹ {data.price}</Button>
       </CardDescription>
