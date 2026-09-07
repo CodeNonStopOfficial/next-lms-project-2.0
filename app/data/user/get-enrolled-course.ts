@@ -28,6 +28,16 @@ export async function getEnrolledCourse() {
               lessons: {
                 select: {
                   id: true,
+                  lessonProgress : {
+                     where : {
+                       userId : user.id,
+                     },
+                     select : {
+                      id : true,
+                      completed : true,
+                      lessonId: true
+                     }
+                  }
                 },
               },
             },

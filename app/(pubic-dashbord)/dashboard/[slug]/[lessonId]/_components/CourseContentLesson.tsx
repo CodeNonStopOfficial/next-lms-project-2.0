@@ -77,7 +77,7 @@ export function CourseContentLesson({ data, imageUrl, videoUrl }: iAppProps) {
       {/* Lesson Header */}
       <div className="flex flex-col gap-5 border-b py-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-bold capitalize leading-tight sm:text-3xl">
+          <h1 className="text-2xl font-bold capitalize leading-tight">
             {data.title}
           </h1>
 

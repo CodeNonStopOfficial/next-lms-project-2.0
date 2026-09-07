@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { useCourseProgress } from "@/hooks/use-course-progress";
 
 interface iAppProps {
   course: CourseSidebarDataType["course"];
@@ -17,6 +18,7 @@ interface iAppProps {
 export default function CourseSidebarDashboard({ course }: iAppProps) {
   const pathname = usePathname();
   const currenLessonId = pathname.split("/").pop();
+  const {totalLessons,completedLesson,progressPercentage} = useCourseProgress({course});
   return (
     <div className="flex flex-col h-full bg-gray-100 dark:bg-[#0B0909] px-2 py-4">
       <div className="border-b border-border">
@@ -37,11 +39,11 @@ export default function CourseSidebarDashboard({ course }: iAppProps) {
       <div className="space-y-1">
         <div className="flex justify-between text-xs">
           <span className="text-muted-foreground">Progress</span>
-          <span className="font-medium">4/10 Lesson</span>
+          <span className="font-medium">{completedLesson}/{totalLessons} Lessons</span>
         </div>
         <div className="w-full overflow-hidden">
-          <Progress value={55} className="border rounded border-blue-700" />
-          <p className="text-muted-foreground text-xs">50% Completed</p>
+          <Progress value={progressPercentage} className="border rounded border-blue-700" />
+          <p className="text-muted-foreground text-xs">{progressPercentage}% Completed</p>
         </div>
       </div>
       <div className="py-4 pr-4 space-y-3">

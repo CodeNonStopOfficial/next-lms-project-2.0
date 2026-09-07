@@ -39,7 +39,7 @@ export async function AdminCourseCard({ data }: CourseCardProps) {
         alt="thumbnail"
         width={600}
         height={400}
-        className=" object-cover h-44 border dark:bg-primary/10 bg-primary/5 rounded-2xl"
+        className=" object-cover md:h-45 h-60 border dark:bg-primary/10 bg-primary/5 rounded-2xl"
       />
       <div className=" absolute top-2 right-2">
         <DropdownMenu>
