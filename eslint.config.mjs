@@ -22,6 +22,7 @@ const eslintConfig = defineConfig([
       "@next/next/no-page-custom-font": "off",
     },
   },
+  {ignores : ['./lib/generated/**']}
 ]);
 
 export default eslintConfig;
