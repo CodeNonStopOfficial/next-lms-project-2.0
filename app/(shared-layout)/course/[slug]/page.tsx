@@ -50,7 +50,7 @@ export default async function PublicSingleCourse({
         </div>
         <div className="mt-8 space-y-6">
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-2xl font-bold tracking-tight">
               {course.title}
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">

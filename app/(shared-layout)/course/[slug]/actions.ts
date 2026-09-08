@@ -43,11 +43,7 @@ export async function enrollInCourseAction(
         title: true,
         price: true,
         slug: true,
-<<<<<<< HEAD
         stripePriceId: true,
-=======
-        stripePriceId : true,
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
       },
     });
 
@@ -63,16 +59,11 @@ export async function enrollInCourseAction(
         id: user.id,
       },
       select: {
-<<<<<<< HEAD
         stripeCustomerId: true,
-=======
-         stripeCustomerId : true,
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
       },
     });
 
     if (userWithStripeCustomerId?.stripeCustomerId) {
-<<<<<<< HEAD
       try {
         // Verify that the customer still exists in Stripe
         const customer = await stripe.customers.retrieve(
@@ -106,9 +97,6 @@ export async function enrollInCourseAction(
         });
       }
       // stripeCustomerId = userWithStripeCustomerId.stripeCustomerId;
-=======
-      stripeCustomerId = userWithStripeCustomerId.stripeCustomerId;
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
     } else {
       const customer = await stripe.customers.create({
         email: user.email,
@@ -171,22 +159,12 @@ export async function enrollInCourseAction(
         });
       }
 
-<<<<<<< HEAD
       // create checkout session second step
       const checkoutSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
         line_items: [
           {
             price: course.stripePriceId as string,
-=======
-      // create checkout session second step 
-      const checkoutSession = await stripe.checkout.sessions.create({
-        customer : stripeCustomerId,
-        line_items: [
-          {
-            // price:"price_1UBJeGH0duXAAuN0zElDFZti",
-            price : course.stripePriceId as string,
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
             quantity: 1,
           },
         ],
@@ -208,10 +186,6 @@ export async function enrollInCourseAction(
     checkoutUrl = result.checkoutUrl as string;
   } catch (error) {
     if (error instanceof Stripe.errors.StripeError) {
-<<<<<<< HEAD
-      console.log(error);
-=======
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
       return {
         status: "error",
         message: "Payment System Error, Please try again later",
@@ -224,8 +198,3 @@ export async function enrollInCourseAction(
   }
   redirect(checkoutUrl);
 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 16b5b41287f83c5687bba6f7d8edaeb18b8500e2
