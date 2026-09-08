@@ -53,11 +53,11 @@ export default function PaymentSuccess() {
           {/* Action Buttons */}
           <div className="flex w-full flex-col gap-3 sm:flex-row">
             <Button className="flex-1">
-              <Link href="/orders">View Orders</Link>
+              <Link href="/dashboard">View Orders</Link>
             </Button>
 
             <Button variant="outline" className="flex-1">
-              <Link href="/">Continue Shopping</Link>
+              <Link href="/course">Continue Shopping</Link>
             </Button>
           </div>
 
