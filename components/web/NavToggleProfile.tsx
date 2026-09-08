@@ -87,13 +87,7 @@ export function NavToggleProfile({ user }: UserDataProps) {
         >
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              <Link href="/profile" className="flex gap-2">
-                <User />
-                Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/my-course" className="flex gap-2">
+              <Link href="/dashboard" className="flex gap-2">
                 <Wallpaper />
                 My Course
               </Link>
@@ -102,12 +96,6 @@ export function NavToggleProfile({ user }: UserDataProps) {
               <Link href="/course" className="flex gap-2">
                 <SquareLibrary />
                 Course
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/settings" className="flex gap-2">
-                <BadgeDollarSign />
-                Batch
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
