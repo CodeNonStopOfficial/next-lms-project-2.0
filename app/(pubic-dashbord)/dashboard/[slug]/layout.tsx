@@ -22,7 +22,7 @@ export default async function PublicSlugRoute({
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto mb-45">
         {children}
       </main>
     </div>

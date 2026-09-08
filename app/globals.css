@@ -141,6 +141,7 @@
 
 html {
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 /* Internet Explorer & old Edge */

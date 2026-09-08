@@ -64,7 +64,7 @@ export default async function PublicDashboardPage() {
             showButton={true}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {enrolledCourses.map((course) => (
                 <CourseCardPublic
                   key={course.id}
@@ -95,7 +95,7 @@ export default async function PublicDashboardPage() {
             showButton={false}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-2 gap-4">
             {availableCourses.map((course) => (
               <PublicGetCourseCard
                 key={course.id}

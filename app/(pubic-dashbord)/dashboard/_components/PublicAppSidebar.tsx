@@ -16,6 +16,8 @@ import {
   CircleHelpIcon,
   SearchIcon,
 } from "lucide-react";
+import Link from "next/link";
+
 
 const data = {
   navMain: [
@@ -63,9 +65,9 @@ export function PublicDashboardAppSidebar({
       <SidebarMenu>
         <SidebarMenuItem>
           <div className="px-4 py-2 bg-gray-100 dark:bg-blue-800 mx-auto items-center justify-center border">
-            <h1 className="text-xl font-bold">
+            <Link href="/" className="text-xl font-bold">
               <span className="dark:text-[#f4eeee]">CodeNonstop-LMS</span>
-            </h1>
+            </Link>
           </div>
         </SidebarMenuItem>
       </SidebarMenu>

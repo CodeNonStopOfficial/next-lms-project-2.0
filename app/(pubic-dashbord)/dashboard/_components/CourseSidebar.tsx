@@ -20,7 +20,7 @@ export default function CourseSidebarDashboard({ course }: iAppProps) {
   const currenLessonId = pathname.split("/").pop();
   const {totalLessons,completedLesson,progressPercentage} = useCourseProgress({course});
   return (
-    <div className="flex flex-col h-full bg-gray-100 dark:bg-[#0B0909] px-2 py-4">
+    <div className="flex flex-col h-full px-2 py-4 ">
       <div className="border-b border-border">
         <div className="flex items-center gap-1 mb-3 justify-center">
           <div className="flex bg-[#F67D31] text-white size-10 border rounded-lg bg-primar items-center text-center justify-center shrink-0">
@@ -30,7 +30,7 @@ export default function CourseSidebarDashboard({ course }: iAppProps) {
             <h1 className="font-semibold text-base leading-tight truncate">
               {course?.title}
             </h1>
-            <p className="text-xl text-muted-foreground mt-1">
+            <p className="text-[14px] text-muted-foreground mt-1">
               {course.category}
             </p>
           </div>

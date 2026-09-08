@@ -48,7 +48,7 @@ export function CourseContentLesson({ data, imageUrl, videoUrl }: iAppProps) {
     <div className="flex h-full flex-col bg-background">
       {/* Video */}
       <div className="overflow-hidden rounded-xl border bg-black shadow-sm">
-        <div className="aspect-video">
+        <div className="aspect-video scroll-mt-49" id="smooth">
           {videoUrl ? (
             <video
               className="h-full w-full object-contain bg-black"
@@ -75,7 +75,7 @@ export function CourseContentLesson({ data, imageUrl, videoUrl }: iAppProps) {
       </div>
 
       {/* Lesson Header */}
-      <div className="flex flex-col gap-5 border-b py-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-5 border-b py-5 sm:py-6 lg:flex-row lg:items-center lg:justify-between border rounded bg-gray-100 dark:bg-black mt-5 px-2">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold capitalize leading-tight">
             {data.title}
@@ -130,7 +130,8 @@ export function CourseContentLesson({ data, imageUrl, videoUrl }: iAppProps) {
       </div>
 
       {/* Description */}
-      <div className="py-6 sm:py-8">
+      <div className="max-w-full mt-4">
+        <h1 className="text-2xl font-bold px-2">Description </h1>
         <div className="prose prose-sm max-w-none dark:prose-invert sm:prose-base">
           {data.description && (
             <RenderDescription json={JSON.parse(data.description)} />

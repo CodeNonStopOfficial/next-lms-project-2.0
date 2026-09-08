@@ -55,7 +55,7 @@ export default function Loading() {
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <Skeleton className="h-[220px] w-full rounded-xl" />
+          <Skeleton className="h-55 w-full rounded-xl" />
           <Skeleton className="h-12 w-full rounded-lg" />
           <Skeleton className="h-12 w-full rounded-lg" />
 

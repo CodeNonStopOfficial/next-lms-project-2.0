@@ -1,79 +1,103 @@
-"use client"
+"use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
-interface FeatureProps{
-     icon : string,
-     title : string,
-     description : string
+interface FeatureProps {
+  icon: string;
+  title: string;
+  description: string;
 }
-const features :FeatureProps[] = [
+
+const features: FeatureProps[] = [
   {
     icon: "🎥",
     title: "Live Interactive Classes",
     description:
-      "Attend live classes with expert educators, ask questions, participate in polls, and learn in real-time."
+      "Attend live classes with expert educators, ask questions, participate in polls, and learn in real-time.",
   },
   {
     icon: "👨‍🏫",
     title: "Expert Educators",
     description:
-      "Learn from experienced teachers who simplify complex concepts with structured lessons."
+      "Learn from experienced teachers who simplify complex concepts with structured lessons.",
   },
   {
     icon: "📚",
     title: "Complete Course Library",
     description:
-      "Access thousands of courses, recorded lectures, notes, and study materials anytime."
+      "Access thousands of courses, recorded lectures, notes, and study materials anytime.",
   },
   {
     icon: "📝",
     title: "Mock Tests & Practice",
     description:
-      "Prepare better with quizzes, test series, performance analysis, and exam simulations."
+      "Prepare better with quizzes, test series, performance analysis, and exam simulations.",
   },
   {
     icon: "📊",
     title: "Performance Analytics",
     description:
-      "Track your learning progress, identify weak areas, and improve your preparation."
+      "Track your learning progress, identify weak areas, and improve your preparation.",
   },
   {
     icon: "🤖",
     title: "AI Learning Assistant",
     description:
-      "Get instant doubt solving, personalized recommendations, and smart learning support."
+      "Get instant doubt solving, personalized recommendations, and smart learning support.",
   },
   {
     icon: "💬",
     title: "Doubt Resolution",
     description:
-      "Ask questions anytime and get solutions from educators and learning communities."
+      "Ask questions anytime and get solutions from educators and learning communities.",
   },
   {
     icon: "📱",
     title: "Learn Anywhere",
     description:
-      "Access classes on mobile, tablet, or desktop with seamless learning experience."
+      "Access classes on mobile, tablet, or desktop with a seamless learning experience.",
   },
 ];
 
-export function FeatureSection(){
-     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {
-              features.map((data,index)=>(
-                 <Card key={index} className="bg-white dark:bg-[#0b0b0b] hover:shadow-lg tracking-tight">
-                     <CardHeader>
-                        <div className="text-2xl border-0">{data.icon}</div>
-                        <CardTitle className="text-[20px] font-bold text-shadow-black">{data.title}</CardTitle>
-                     </CardHeader>
-                     <CardContent>
-                        <p className="text-[16px] font-normal text-muted-foreground">{data.description}</p>
-                     </CardContent>
-                 </Card>
-              ))
-            }
-        </div>
-     )
+export function FeatureSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {features.map((feature, index) => (
+          <Card
+            key={index}
+            className="
+              group
+              h-full
+              rounded-2xl
+              border
+              bg-background
+              transition-all
+              duration-300
+              hover:-translate-y-2
+              hover:border-primary/40
+              hover:shadow-xl
+              dark:hover:shadow-primary/10
+            "
+          >
+            <CardHeader className="space-y-5">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-3xl transition-transform duration-300 group-hover:scale-110">
+                {feature.icon}
+              </div>
+
+              <CardTitle className="text-xl font-bold leading-snug">
+                {feature.title}
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <p className="text-sm leading-7 text-muted-foreground sm:text-base">
+                {feature.description}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+  );
 }

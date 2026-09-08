@@ -13,14 +13,14 @@ export function Navbar() {
         <div className="flex flex-row space-x-8 items-center justify-center">
           <Button variant="outline" className="px-4 py-5">
             <Link href="/">
-              <h1 className="text-[22px] font-bold text-base text-[#3a3b37]">
+              <h1 className="text-[22px] font-bold text-base bg-linear-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                 <span className="text-[#ff0000]">Code</span>Nonstop
               </h1>
             </Link>
           </Button>
 
           <div className="hidden md:flex flex-row space-x-8 text-[16px] font-normal">
-            <Link href="/getting" className="hover:text-amber-500">
+            <Link href="/" className="hover:text-amber-500">
               Getting
             </Link>
             <Link href="/course" className="hover:text-amber-500">
