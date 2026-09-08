@@ -43,7 +43,7 @@ export async function enrollInCourseAction(
         title: true,
         price: true,
         slug: true,
-        stripePriceId : true,
+        stripePriceId: true,
       },
     });
 
@@ -59,12 +59,44 @@ export async function enrollInCourseAction(
         id: user.id,
       },
       select: {
-         stripeCustomerId : true,
+        stripeCustomerId: true,
       },
     });
 
     if (userWithStripeCustomerId?.stripeCustomerId) {
-      stripeCustomerId = userWithStripeCustomerId.stripeCustomerId;
+      try {
+        // Verify that the customer still exists in Stripe
+        const customer = await stripe.customers.retrieve(
+          userWithStripeCustomerId.stripeCustomerId,
+        );
+
+        // If Stripe returns a deleted customer, create a new one
+        if ("deleted" in customer && customer.deleted) {
+          throw new Error("Customer deleted");
+        }
+
+        stripeCustomerId = customer.id;
+      } catch (error) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          name: user.name,
+          metadata: {
+            userId: user.id,
+          },
+        });
+
+        stripeCustomerId = customer.id;
+
+        await prisma.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            stripeCustomerId,
+          },
+        });
+      }
+      // stripeCustomerId = userWithStripeCustomerId.stripeCustomerId;
     } else {
       const customer = await stripe.customers.create({
         email: user.email,
@@ -127,13 +159,12 @@ export async function enrollInCourseAction(
         });
       }
 
-      // create checkout session second step 
+      // create checkout session second step
       const checkoutSession = await stripe.checkout.sessions.create({
-        customer : stripeCustomerId,
+        customer: stripeCustomerId,
         line_items: [
           {
-            price:"price_1UDSBAHfdcTUeZSGVe0MuLQd",
-            // price : course.stripePriceId as string,
+            price: course.stripePriceId as string,
             quantity: 1,
           },
         ],
@@ -155,6 +186,7 @@ export async function enrollInCourseAction(
     checkoutUrl = result.checkoutUrl as string;
   } catch (error) {
     if (error instanceof Stripe.errors.StripeError) {
+      console.log(error);
       return {
         status: "error",
         message: "Payment System Error, Please try again later",
@@ -167,5 +199,3 @@ export async function enrollInCourseAction(
   }
   redirect(checkoutUrl);
 }
-
-
