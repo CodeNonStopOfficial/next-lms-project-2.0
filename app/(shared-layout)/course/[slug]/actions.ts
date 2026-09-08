@@ -164,7 +164,8 @@ export async function enrollInCourseAction(
         customer: stripeCustomerId,
         line_items: [
           {
-            price: course.stripePriceId as string,
+            // price: course.stripePriceId as string,
+            price: "price_1UDTrpJTJU633Pkn5iVP1Ifm",
             quantity: 1,
           },
         ],
@@ -186,6 +187,7 @@ export async function enrollInCourseAction(
     checkoutUrl = result.checkoutUrl as string;
   } catch (error) {
     if (error instanceof Stripe.errors.StripeError) {
+      console.log(error);
       return {
         status: "error",
         message: "Payment System Error, Please try again later",
